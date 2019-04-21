@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 import 'help_screens/fruits.dart';
+
+Color color1 = Colors.blue[500];
+Color color2 = Colors.blue[700];
+Color color3 = Colors.blue[900]; 
 
 void main() => runApp(MyApp());
 
@@ -10,7 +15,8 @@ class MyApp extends StatelessWidget {
       home: FunApp(),
       initialRoute: '.',
       routes: {
-        '.': (context) => FunApp(),
+        '.': (context) => Login(),
+        'home': (context) => FunApp(),
         'fruits': (context) => Fruits(),
         'fruitList': (context) => FruitList(),
         'onlineFruits': (context) => OnlineFruits()

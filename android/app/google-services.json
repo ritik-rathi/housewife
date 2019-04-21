@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "58034130184",
+    "firebase_url": "https://housewife-app-15550.firebaseio.com",
+    "project_id": "housewife-app-15550",
+    "storage_bucket": "housewife-app-15550.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58034130184:android:5c02f5cde023be9c",
+        "android_client_info": {
+          "package_name": "com.example.fun_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58034130184-j7ar5u5ubpuk4a2k01nc54co710tv88r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCkJpV9cRxS5DHTK3jxlAbtg9-TXCRAvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58034130184-j7ar5u5ubpuk4a2k01nc54co710tv88r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
