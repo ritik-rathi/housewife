@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'login.dart';
 import 'help_screens/fruits.dart';
 
@@ -12,8 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FunApp(),
-      initialRoute: '.',
+      debugShowCheckedModeBanner: false,
+      home: SplashScreens(),
+      // initialRoute: '.',
       routes: {
         '.': (context) => Login(),
         'home': (context) => FunApp(),
