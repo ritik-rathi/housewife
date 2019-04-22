@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'login.dart';
 import 'help_screens/fruits.dart';
+import 'login_new.dart';
 
 Color color1 = Colors.blue[500];
 Color color2 = Colors.blue[700];
@@ -14,10 +15,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FunApp(),
+      theme: ThemeData(fontFamily: 'Poppins'),
+      home: LoginNew(),
       // initialRoute: '.',
       routes: {
-        '.': (context) => FunApp(),
+        '.': (context) => SplashScreens(),
         'home': (context) => FunApp(),
         'fruits': (context) => Fruits(),
         'fruitList': (context) => FruitList(),
