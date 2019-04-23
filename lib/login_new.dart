@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'main.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 
@@ -9,8 +10,27 @@ class LoginNew extends StatefulWidget {
   _LoginNewState createState() => _LoginNewState();
 }
 
-class _LoginNewState extends State<LoginNew> {
+class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
   final GlobalKey<FormState> _newKey = GlobalKey<FormState>();
+
+  Animation<double> animation;
+  AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = new AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
+    // animation = Tween<double>(begin: 0.0, end: 1.0).animate(new CurvedAnimation(
+    //     parent: animationController, curve: Curves.easeIn));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +77,14 @@ class _LoginNewState extends State<LoginNew> {
                                 cursorColor: Colors.white,
                                 onSaved: (value) => _name = value,
                                 decoration: InputDecoration(
-                                    labelText: 'Name',
-                                    border: new OutlineInputBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(10.0),
-                                      borderSide: new BorderSide(color: Colors.white),
-                                    ),
+                                  labelText: 'Name',
+                                  border: new OutlineInputBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0),
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
                                   ),
+                                ),
                               ),
                               SizedBox(height: 10),
                               TextFormField(
@@ -75,7 +96,8 @@ class _LoginNewState extends State<LoginNew> {
                                   border: new OutlineInputBorder(
                                     borderRadius:
                                         new BorderRadius.circular(10.0),
-                                    borderSide: new BorderSide(color: Colors.white),
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -87,10 +109,10 @@ class _LoginNewState extends State<LoginNew> {
                                 decoration: InputDecoration(
                                   labelText: 'Phone',
                                   border: new OutlineInputBorder(
-                                    
                                     borderRadius:
                                         new BorderRadius.circular(10.0),
-                                    borderSide: new BorderSide(color: Colors.white),
+                                    borderSide:
+                                        new BorderSide(color: Colors.white),
                                   ),
                                 ),
                               )
@@ -103,7 +125,24 @@ class _LoginNewState extends State<LoginNew> {
             ),
             SizedBox(height: 10),
             GradientButton(
-              callback: () {},
+              callback: () {
+                setState(() {
+                  animationController.forward();
+                  if (animationController.isAnimating) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FadeTransition(
+                                  opacity: animationController,
+                                  child: SplashScreens(),
+                                )));
+                  } else if (animationController.isCompleted) {
+                    setState(() {
+                      animationController.reset();
+                    });
+                  }
+                });
+              },
               child: Text(
                 'Send OTP',
               ),
