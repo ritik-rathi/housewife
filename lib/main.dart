@@ -3,6 +3,7 @@ import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'login.dart';
 import 'help_screens/fruits.dart';
 import 'login_new.dart';
+import 'onlineShop/home.dart';
 
 Color color1 = Colors.blue[500];
 Color color2 = Colors.blue[700];
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: LoginNew(),
+      home: HomeShop(),
       // initialRoute: '.',
       routes: {
         '.': (context) => SplashScreens(),
