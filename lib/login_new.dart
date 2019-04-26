@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'main.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-String _email, _name, _phone;
+String _email, _name, _phone, _message, _verificationId, _smsCode;
 
 class LoginNew extends StatefulWidget {
+  final ScaffoldState scaffold;
+
+  const LoginNew({this.scaffold});
   @override
   _LoginNewState createState() => _LoginNewState();
 }
@@ -126,22 +130,23 @@ class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
             SizedBox(height: 10),
             GradientButton(
               callback: () {
-                setState(() {
-                  animationController.forward();
-                  if (animationController.isAnimating) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FadeTransition(
-                                  opacity: animationController,
-                                  child: SplashScreens(),
-                                )));
-                  } else if (animationController.isCompleted) {
-                    setState(() {
-                      animationController.reset();
-                    });
-                  }
-                });
+                // setState(() {
+                //   animationController.forward();
+                //   if (animationController.isAnimating) {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => FadeTransition(
+                //                   opacity: animationController,
+                //                   child: SplashScreens(),
+                //                 )));
+                //   } else if (animationController.isCompleted) {
+                //     setState(() {
+                //       animationController.reset();
+                //     });
+                //   }
+                // });
+                _verifyPhoneNumber();
               },
               child: Text(
                 'Send OTP',
@@ -152,5 +157,65 @@ class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  void _verifyPhoneNumber() async {
+    setState(() {
+      _message = '';
+    });
+    final PhoneVerificationCompleted verificationCompleted =
+        (FirebaseUser user) {
+      setState(() {
+        _message = 'signInWithPhoneNumber auto succeeded: $user';
+      });
+    };
+
+    final PhoneVerificationFailed verificationFailed =
+        (AuthException authException) {
+      setState(() {
+        _message =
+            'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}';
+      });
+    };
+
+    final PhoneCodeSent codeSent =
+        (String verificationId, [int forceResendingToken]) async {
+      widget.scaffold.showSnackBar(SnackBar(
+        content:
+            const Text('Please check your phone for the verification code.'),
+      ));
+      _verificationId = verificationId;
+    };
+
+    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
+      _verificationId = verificationId;
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: _phone,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verificationCompleted,
+        verificationFailed: verificationFailed,
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+  }
+
+  void _signInWithPhoneNumber() async {
+    final AuthCredential credential = PhoneAuthProvider.getCredential(
+      verificationId: _verificationId,
+      smsCode: _smsCode,
+    );
+    final FirebaseUser user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+    assert(user.uid == currentUser.uid);
+    setState(() {
+      if (user != null) {
+        _message = 'Successfully signed in, uid: ' + user.uid;
+      } else {
+        _message = 'Sign in failed';
+      }
+    });
   }
 }

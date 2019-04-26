@@ -4,6 +4,7 @@ import 'login.dart';
 import 'help_screens/fruits.dart';
 import 'login_new.dart';
 import 'onlineShop/home.dart';
+import 'bottom_navbar/navbar.dart';
 
 Color color1 = Colors.blue[500];
 Color color2 = Colors.blue[700];
