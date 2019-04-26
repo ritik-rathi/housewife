@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun_app/bottom_navbar/navbar.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 
 class HomeShop extends StatefulWidget {
@@ -9,7 +10,11 @@ class HomeShop extends StatefulWidget {
 int x = 0;
 
 class _HomeShopState extends State<HomeShop> {
-  int currentIndex = 0;
+  int _currentIndex = 0;
+  var _controller = PageController(
+    initialPage: 0,
+  );
+
   List<Widget> tabs = [
     TabScreen(ListView.builder(
       itemBuilder: (context, index) {
@@ -47,21 +52,24 @@ class _HomeShopState extends State<HomeShop> {
                             fontSize: 20, fontWeight: FontWeight.w500)),
                   ),
                   Positioned(
-                    top: 65,
-                    left: 150,
-                    child: GradientText('1 kg', gradient: Gradients.coldLinear, style: TextStyle(fontSize: 15),)
-                  ),
+                      top: 65,
+                      left: 150,
+                      child: GradientText(
+                        '1 kg',
+                        gradient: Gradients.coldLinear,
+                        style: TextStyle(fontSize: 15),
+                      )),
                   Positioned(
                     top: 80,
                     right: 20,
                     child: GradientButton(
                       gradient: Gradients.coldLinear,
-                      callback: () {
-                        
-                      },
+                      callback: () {},
                       child: Row(
                         children: <Widget>[
-                          SizedBox(width: 5,),
+                          SizedBox(
+                            width: 5,
+                          ),
                           Icon(Icons.add),
                           SizedBox(
                             width: 10,
@@ -155,7 +163,7 @@ class _HomeShopState extends State<HomeShop> {
   ];
   _onTapped(int index) {
     setState(() {
-      currentIndex = index;
+      _currentIndex = index;
     });
   }
 
@@ -163,39 +171,83 @@ class _HomeShopState extends State<HomeShop> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order now', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 25),),
+        title: Text(
+          'Order now',
+          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 25),
+        ),
         backgroundColor: Color(0xfff20BDFF),
         centerTitle: true,
       ),
-      body: tabs[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _onTapped,
-        items: [
-          BottomNavigationBarItem(
-              icon: Image(
-                image: AssetImage('assets/images/fruits.png'),
-                height: 30,
-                width: 30,
-              ),
-              title: Text('Fruits')),
-          BottomNavigationBarItem(
-              icon: Image(
-                height: 30,
-                width: 30,
-                image: AssetImage('assets/images/fruits.png'),
-              ),
-              title: Text('Vegetables')),
-          BottomNavigationBarItem(
-              icon: Image(
-                height: 30,
-                width: 30,
-                image: AssetImage('assets/images/grocery.png'),
-              ),
-              title: Text('Grocery')),
-        ],
+      body: PageView(
+        controller: _controller,
+        children: _generatorWidget(),
       ),
+      bottomNavigationBar: NavigationBar(
+        items: [],
+      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   onTap: _onTapped,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //         icon: Image(
+      //           image: AssetImage('assets/images/fruits.png'),
+      //           height: 30,
+      //           width: 30,
+      //         ),
+      //         title: Text('Fruits')),
+      //     BottomNavigationBarItem(
+      //         icon: Image(
+      //           height: 30,
+      //           width: 30,
+      //           image: AssetImage('assets/images/fruits.png'),
+      //         ),
+      //         title: Text('Vegetables')),
+      //     BottomNavigationBarItem(
+      //         icon: Image(
+      //           height: 30,
+      //           width: 30,
+      //           image: AssetImage('assets/images/grocery.png'),
+      //         ),
+      //         title: Text('Grocery')),
+      //   ],
+      // ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  _tabChange(int index, bool isChange) {
+    print("index:$index--isChange:$isChange");
+    if (isChange) {
+      _controller.jumpToPage(index);
+      _currentIndex = index;
+      print("_currentIndex:$_currentIndex");
+      setState(() {});
+    }
+  }
+
+  List<Widget> _generatorWidget(Map<String, Color> map) {
+  List<Widget> list = [];
+  map.forEach((title, color) {
+    list.add(Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: color.withOpacity(0.5),
+      ),
+      body: Center(
+        child: Text(
+          "Click and Look the bottom naviBar change",
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    ));
+  });
+return list;
+}
 }
 
 class TabScreen extends StatelessWidget {
