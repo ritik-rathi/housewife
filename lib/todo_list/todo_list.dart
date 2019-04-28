@@ -1,4 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:fun_app/todo_list/task_row.dart';
+import 'package:fun_app/todo_list/tasks.dart';
+
+List<Tasks> tasks = [
+  new Tasks(
+      title: "Make new icons",
+      category: "App",
+      time: "3pm",
+      color: Colors.cyan,
+      completed: true),
+  new Tasks(
+      title: "Design explorations",
+      category: "Company Website",
+      time: "2pm",
+      color: Colors.pink,
+      completed: false),
+  new Tasks(
+      title: "Lunch",
+      category: "House",
+      time: "12pm",
+      color: Colors.cyan,
+      completed: true),
+  new Tasks(
+      title: "Team Meeting",
+      category: "Hangouts",
+      time: "10am",
+      color: Colors.cyan,
+      completed: true),
+];
 
 class TodoList extends StatefulWidget {
   @override
@@ -27,11 +56,25 @@ class _TodoListState extends State<TodoList> {
               )),
           _buildHeaderIcons(),
           _buildProfileRow(),
-          _buildBottomPart()
+          _buildBottomPart(),
+          _buildTimeLine(),
+          
         ],
       ),
     );
   }
+}
+
+Widget _buildList() {
+  return Expanded(
+    child: ListView(
+      children: tasks
+          .map((task) => TaskRow(
+                task: task,
+              ))
+          .toList(),
+    ),
+  );
 }
 
 // ! make the row to display photo and name of the person
@@ -44,9 +87,8 @@ Widget _buildProfileRow() {
           width: 50.0,
           height: 50.0,
           decoration: BoxDecoration(
-            border: Border.all(width: 1.0 , color: Colors.white),
-            borderRadius: BorderRadius.circular(25.0)
-          ),
+              border: Border.all(width: 1.0, color: Colors.white),
+              borderRadius: BorderRadius.circular(25.0)),
         )
       ],
     ),
@@ -80,11 +122,18 @@ Widget _buildListHeader() {
       ],
     ),
   );
-
 }
 
-Widget _buildList() {
-  return Container();
+Widget _buildTimeLine() {
+  return Positioned(
+    left: 32.0,
+    top: 200.0,
+    bottom: 0.0,
+    child: Container(
+      width: 1.0,
+      color: Colors.grey[300],
+    ),
+  );
 }
 
 Widget _buildHeaderIcons() {
