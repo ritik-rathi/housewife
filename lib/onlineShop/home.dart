@@ -180,7 +180,7 @@ class _HomeShopState extends State<HomeShop> {
       ),
       body: PageView(
         controller: _controller,
-        children: _generatorWidget(),
+        // children: _generatorWidget(),
       ),
       bottomNavigationBar: NavigationBar(
         items: [],
