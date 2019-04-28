@@ -24,34 +24,88 @@ class _TodoListState extends State<TodoList> {
                 height: _imageHeight,
                 colorBlendMode: BlendMode.srcOver,
                 color: new Color.fromARGB(120, 20, 10, 40),
-              )
-              ),
-              _buildHeaderIcons()
+              )),
+          _buildHeaderIcons(),
+          _buildProfileRow(),
+          _buildBottomPart()
         ],
       ),
     );
   }
 }
 
-Widget _buildHeaderIcons(){
+// ! make the row to display photo and name of the person
+Widget _buildProfileRow() {
+  return new Padding(
+    padding: EdgeInsets.only(left: 64.0, top: 100.0),
+    child: new Row(
+      children: <Widget>[
+        Container(
+          width: 50.0,
+          height: 50.0,
+          decoration: BoxDecoration(
+            border: Border.all(width: 1.0 , color: Colors.white),
+            borderRadius: BorderRadius.circular(25.0)
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+Widget _buildBottomPart() {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal:8.0 , vertical: 25.0),
+    padding: const EdgeInsets.only(top: 270.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[_buildListHeader(), _buildList()],
+    ),
+  );
+}
+
+Widget _buildListHeader() {
+  return Padding(
+    padding: EdgeInsets.only(left: 64.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        new Text(
+          'My Tasks',
+          style: new TextStyle(fontSize: 34.0),
+        ),
+        new Text(
+          'Date', // ? enter the date from Firebase
+          style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+        ),
+      ],
+    ),
+  );
+
+}
+
+Widget _buildList() {
+  return Container();
+}
+
+Widget _buildHeaderIcons() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 25.0),
     child: Row(
       children: <Widget>[
-        Icon(Icons.arrow_back_ios , color: Colors.white , size: 32.0),
+        Icon(Icons.arrow_back_ios, color: Colors.white, size: 32.0),
         new Expanded(
-            child: new Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: new Text(
-                "TODO",
-                style: new TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300),
-              ),
+          child: new Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: new Text(
+              "TODO",
+              style: new TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w300),
             ),
           ),
-          new Icon(Icons.linear_scale, color: Colors.white),
+        ),
+        new Icon(Icons.linear_scale, color: Colors.white),
       ],
     ),
   );
