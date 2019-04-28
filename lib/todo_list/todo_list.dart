@@ -54,7 +54,7 @@ class _TodoListState extends State<TodoList> {
                 colorBlendMode: BlendMode.srcOver,
                 color: new Color.fromARGB(120, 20, 10, 40),
               )),
-          _buildHeaderIcons(),
+          _buildHeaderIcons(context),
           _buildProfileRow(),
           _buildBottomPart(),
           _buildTimeLine(),
@@ -147,12 +147,14 @@ Widget _buildTimeLine() {
   );
 }
 
-Widget _buildHeaderIcons() {
+Widget _buildHeaderIcons(context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 25.0),
     child: Row(
       children: <Widget>[
-        Icon(Icons.arrow_back_ios, color: Colors.white, size: 32.0),
+        GestureDetector(onTap: (){
+          Navigator.pushNamed(context, '.');
+        },child: Icon(Icons.arrow_back_ios, color: Colors.white, size: 32.0)),
         new Expanded(
           child: new Padding(
             padding: const EdgeInsets.only(left: 8.0),
