@@ -58,7 +58,15 @@ class _TodoListState extends State<TodoList> {
           _buildProfileRow(),
           _buildBottomPart(),
           _buildTimeLine(),
-          
+          Positioned(
+            right: 10.0,
+            top: 220.0,
+            child: FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: Colors.pink,
+              child: Icon(Icons.add_box),
+            ),
+          )
         ],
       ),
     );
@@ -66,14 +74,17 @@ class _TodoListState extends State<TodoList> {
 }
 
 Widget _buildList() {
+  final GlobalKey<AnimatedListState> _listKey =
+      new GlobalKey<AnimatedListState>();
   return Expanded(
-    child: ListView(
-      children: tasks
-          .map((task) => TaskRow(
-                task: task,
-              ))
-          .toList(),
-    ),
+    child: AnimatedList(
+        key: _listKey,
+        initialItemCount: tasks.length,
+        itemBuilder: (context, index, animation) {
+          return new TaskRow(
+            task: tasks[index],
+          );
+        }),
   );
 }
 
