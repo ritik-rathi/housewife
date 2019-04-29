@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class Fab extends StatefulWidget {
   final VoidCallback onClick;
@@ -42,12 +43,17 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
               alignment: Alignment.center,
               children: <Widget>[
                 _buildExpandedBackground(),
+                _hiddenIcons(Icons.check_circle, 0.0),
+                _hiddenIcons(Icons.flash_on, -math.pi / 3),
+                _hiddenIcons(Icons.access_time, -2 * math.pi / 3),
+                _hiddenIcons(Icons.error_outline, math.pi),
                 FloatingActionButton(
                   onPressed: _control,
                   backgroundColor: _colorAnimation.value,
                   child: Transform(
                       alignment: Alignment.center,
-                      transform: new Matrix4.identity()..scale(1.0, scaleFactor),
+                      transform: new Matrix4.identity()
+                        ..scale(1.0, scaleFactor),
                       child: _controller.value > 0.5
                           ? Icon(Icons.close)
                           : Icon(Icons.filter_list)),
@@ -55,6 +61,29 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
               ],
             );
           }),
+    );
+  }
+
+  Widget _hiddenIcons(IconData icon, double angle) {
+    return Transform.rotate(
+      angle: angle,
+      child: new Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+            padding: EdgeInsets.only(top: 8.0),
+            child: _controller.value > 0.8
+                ? Transform.rotate(
+                    angle: -angle,
+                    child: IconButton(
+                      onPressed: (){},
+                      icon: Icon(icon),
+                      color: Colors.white,
+                      iconSize: 26.0,
+                    ),
+                    alignment: Alignment.center,
+                  )
+                : Container()),
+      ),
     );
   }
 
@@ -78,14 +107,12 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
     }
   }
 
-  Widget _buildExpandedBackground(){
-  double size = 20.0 + (180.0 - 20.0) * _controller.value;
+  Widget _buildExpandedBackground() {
+    double size = 20.0 + (180.0 - 20.0) * _controller.value;
     return new Container(
       height: size,
       width: size,
       decoration: new BoxDecoration(shape: BoxShape.circle, color: Colors.pink),
     );
+  }
 }
-}
-
-
