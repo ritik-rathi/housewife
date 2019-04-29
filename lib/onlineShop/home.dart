@@ -180,10 +180,31 @@ class _HomeShopState extends State<HomeShop> {
       ),
       body: PageView(
         controller: _controller,
-        // children: _generatorWidget(),
+        children: _generatorWidget({
+          "Fruits" : Colors.pink,
+          "Vegetables": Colors.green[400],
+          "Grocery" :  Colors.yellow[300]
+        }),
       ),
       bottomNavigationBar: NavigationBar(
-        items: [],
+        tabchange: _tabChange,
+        items: [
+          BottomNaviItem(
+            title: 'Fruits',
+            color: Colors.pink,
+            icon: Icons.home
+          ),
+           BottomNaviItem(
+            title: 'Vegetables',
+            color: Colors.green[400],
+            icon: Icons.home
+          ),
+           BottomNaviItem(
+            title: 'Grocery',
+            color: Colors.yellow[300],
+            icon: Icons.home
+          )
+        ],
       ),
       // bottomNavigationBar: BottomNavigationBar(
       //   onTap: _onTapped,

@@ -21,7 +21,7 @@ class NavigationBar extends StatefulWidget {
       this.tabchange,
       this.items})
       : assert(items != null && items.length > 0),
-        assert(tabchange == null),
+        assert(tabchange != null),
         super(key: key);
 
   @override
@@ -140,7 +140,7 @@ class _NavigationBarState extends State<NavigationBar> {
 class BottomNaviItem {
   String title;
   Color color;
-  String icon;
+  IconData icon;
 
   BottomNaviItem({this.title, this.color, this.icon}) : super();
 
@@ -148,7 +148,7 @@ class BottomNaviItem {
           _NavigationBarState parentState, double titleWidth) =>
       _BottomNaviItemState(
         title: this.title,
-        icon: this.icon,
+        icon: icon,
         backgroudColor: this.color,
         index: index,
         tabChange: tabChange,
@@ -159,7 +159,7 @@ class BottomNaviItem {
 
 class _BottomNaviItemState extends StatefulWidget {
   final String title;
-  final String icon;
+  final IconData icon;
   final Color backgroudColor;
   final int index;
   final Tabchange tabChange;
@@ -258,10 +258,10 @@ class __BottomNaviItemStateState extends State<_BottomNaviItemState>
           ),
           Container(
             margin: EdgeInsets.fromLTRB(16.0, 10, 0, 10),
-            child: Image.asset(
+            child: Icon(
               widget.icon,
-              width: 20,
-              height: 20,
+              // width: 20,
+              // height: 20,
               color: widget.parentState.isAnimation
                   ? _iconColorAnimation.value
                   : (isOpen ? widget.backgroudColor : Colors.black87),
