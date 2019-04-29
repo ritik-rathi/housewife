@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun_app/todo_list/fab.dart';
 import 'package:fun_app/todo_list/task_row.dart';
 import 'package:fun_app/todo_list/tasks.dart';
 
@@ -59,13 +60,9 @@ class _TodoListState extends State<TodoList> {
           _buildBottomPart(),
           _buildTimeLine(),
           Positioned(
-            right: 10.0,
-            top: 220.0,
-            child: FloatingActionButton(
-              onPressed: () {},
-              backgroundColor: Colors.pink,
-              child: Icon(Icons.add_box),
-            ),
+            right: -40.0,
+            top: 150.0,
+            child: Fab()
           )
         ],
       ),
