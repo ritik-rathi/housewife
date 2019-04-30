@@ -92,7 +92,11 @@ class _SplashScreensState extends State<SplashScreens> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Image.asset(pageList[index].imgPath),
+                      GestureDetector(
+                        onTap:(){
+                          Navigator.pushNamed(context, pageList[index].screenPath);
+                        },
+                        child: Image.asset(pageList[index].imgPath)),
                       Stack(
                         children: <Widget>[
                           Opacity(

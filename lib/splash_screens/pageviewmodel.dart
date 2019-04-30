@@ -6,17 +6,23 @@ var pageList = [
       imgPath: 'assets/images/todo.png',
       title: 'TODO',
       description: 'Manage your day the right way',
-      gradients: gradients[0]),
+      gradients: gradients[0],
+      screenPath: 'todo'
+      ),
   PageViewModel(
       title: 'Shopping',
       imgPath: 'assets/images/shopping.png',
       description: 'Shop your daily needs',
-      gradients: gradients[1]),
+      gradients: gradients[1],
+      screenPath: 'homeshop'
+      ),
   PageViewModel(
       title: 'Records',
       imgPath: 'asssts/images/management.png',
       description: 'Keep track of anything and everything',
-      gradients: gradients[2])
+      gradients: gradients[2],
+      screenPath: 'records'
+      )
 ];
 
 List<List<Color>> gradients = [
@@ -30,6 +36,7 @@ class PageViewModel {
   String title;
   String description;
   String imgPath;
+  String screenPath;
   List<Color> gradients = [];
 
   PageViewModel(
@@ -37,5 +44,6 @@ class PageViewModel {
       this.title,
       this.description,
       this.gradients,
-      this.imgPath});
+      this.imgPath,
+      this.screenPath});
 }
