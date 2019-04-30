@@ -75,11 +75,17 @@ class _RecordsState extends State<Records> {
     return Expanded(
       child: ListView(
         children: <Widget>[
+          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[0]),
+          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[1]),
+          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[2]),
+          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[3]),
-          RecCard(rec: records[4])
+          //Divider(color: Color(0xfff20BDFF)),
+          RecCard(rec: records[4]),
+          //Divider(color: Color(0xfff20BDFF)),
         ],
       ),
     );

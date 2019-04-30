@@ -18,7 +18,7 @@ var pageList = [
       ),
   PageViewModel(
       title: 'Records',
-      imgPath: 'asssts/images/management.png',
+      imgPath: 'asssts/images/todo.png',
       description: 'Keep track of anything and everything',
       gradients: gradients[2],
       screenPath: 'records'
