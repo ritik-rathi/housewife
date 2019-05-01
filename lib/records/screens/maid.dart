@@ -13,7 +13,7 @@ class _MaidState extends State<Maid> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
+        elevation: 0,        
         centerTitle: true,
         title: Text('Maid Account',
             style: TextStyle(
@@ -24,7 +24,7 @@ class _MaidState extends State<Maid> {
               //   Shadow(color: Colors.black, offset: Offset(1.0, -2.0))
               // ]
             )),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Color(0xfff20BDff)),
       ),
       body: Container(
@@ -71,8 +71,9 @@ class _MaidState extends State<Maid> {
                 child: Container(
                     height: 400,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xfff20bdff), width: 3),
-                        borderRadius: BorderRadius.circular(5)),
+                        // border: Border.all(color: Color(0xfff20bdff), width: 3),
+                        borderRadius: BorderRadius.circular(5),
+                        ),
                     child: CalendarCarousel(
                       width: double.infinity,
                       height: 400,
