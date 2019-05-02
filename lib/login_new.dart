@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/splash_screens/splash_screens.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'main.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 
 String _email, _name, _phone, _message, _verificationId, _smsCode;
 
@@ -16,6 +18,10 @@ class LoginNew extends StatefulWidget {
 
 class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
   final GlobalKey<FormState> _newKey = GlobalKey<FormState>();
+
+  Future<void> _uploadData() async{
+    
+  }
 
   Animation<double> animation;
   AnimationController animationController;

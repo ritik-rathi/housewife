@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:fun_app/todo_list/newtask.dart';
+
 class Fab extends StatefulWidget {
   final VoidCallback onClick;
 
@@ -43,10 +45,10 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
               alignment: Alignment.center,
               children: <Widget>[
                 _buildExpandedBackground(),
-                _hiddenIcons(Icons.check_circle, 0.0),
-                _hiddenIcons(Icons.flash_on, -math.pi / 3),
-                _hiddenIcons(Icons.access_time, -2 * math.pi / 3),
-                _hiddenIcons(Icons.error_outline, math.pi),
+                _hiddenIcons(Icons.add, 0.0 , '/newtask'),
+                _hiddenIcons(Icons.flash_on, -math.pi / 3 , '/newtask'),
+                _hiddenIcons(Icons.access_time, -2 * math.pi / 3 , '/newtask'),
+                _hiddenIcons(Icons.error_outline, math.pi , '/newtask'),
                 FloatingActionButton(
                   onPressed: _control,
                   backgroundColor: _colorAnimation.value,
@@ -64,7 +66,7 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _hiddenIcons(IconData icon, double angle) {
+  Widget _hiddenIcons(IconData icon, double angle , String pageRoute) {
     return Transform.rotate(
       angle: angle,
       child: new Align(
@@ -75,7 +77,9 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
                 ? Transform.rotate(
                     angle: -angle,
                     child: IconButton(
-                      onPressed: (){},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/newtask');
+                      },
                       icon: Icon(icon),
                       color: Colors.white,
                       iconSize: 26.0,
