@@ -10,6 +10,8 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   double _imageHeight = 256.0;
   double move = 10.0;
 
+  String taskTitle = '', taskTime = '', taskDes = '', taskColor = '';
+
   bool isRedSelected = false;
   bool isGreenSelected = false;
   bool isCyanSelected = false;
@@ -20,10 +22,14 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   Animation<double> animation;
   Animation<Color> colorAnim;
 
+  // Key titleKey = new UniqueKey();
+  // Key timeKey = new UniqueKey();
+  // Key desKey = new UniqueKey();
+
   @override
   void initState() {
-    _controller =
-        new AnimationController(vsync: this, duration: Duration(milliseconds: 900));
+    _controller = new AnimationController(
+        vsync: this, duration: Duration(milliseconds: 900));
     animation = new Tween(begin: 10.0, end: 280.0).animate(_controller);
     colorAnim = new Tween(begin: Colors.red[200], end: Colors.green[200])
         .animate(_controller);
@@ -82,9 +88,96 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                         fontSize: 40.0,
                         fontWeight: FontWeight.w100),
                   ),
-                  _buildFormItem('Title'),
-                  _buildFormItem('Time'),
-                  _buildFormItem('Description'),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Title',
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                        TextField(
+                          onChanged: (value) {
+                            taskTitle = value;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Title',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.0)),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Time',
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                        TextField(
+                          onChanged: (value) {
+                            taskTime = value;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Time',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.0)),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Description',
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                        TextField(
+                          onChanged: (value) {
+                            taskDes = value;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Description',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.0)),
+                        )
+                      ],
+                    ),
+                  ),
+                  // _buildFormItem(titleKey,'Title', taskTitle),
+                  // _buildFormItem(timeKey,'Time', taskTime),
+                  // _buildFormItem(desKey,'Description', taskDes),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -101,11 +194,15 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                   ),
                   Row(
                     children: <Widget>[
-                      _buildColorOptions(Colors.red, isRedSelected),
-                      _buildColorOptions(Colors.cyan, isCyanSelected),
-                      _buildColorOptions(Colors.yellow, isYellowSelected),
-                      _buildColorOptions(Colors.deepOrange, isOrangeSelected),
-                      _buildColorOptions(Colors.green, isGreenSelected)
+                      _buildColorOptions(Colors.red, isRedSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.cyan, isCyanSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.yellow, isYellowSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.deepOrange, isOrangeSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.green, isGreenSelected, taskColor)
                     ],
                   ),
                   _buildSubmitButton()
@@ -135,36 +232,39 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildFormItem(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-      child: Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-          ),
-          TextField(
-            onSubmitted: (value) {},
-            decoration: InputDecoration(
-                hintText: title,
-                hintStyle: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0)),
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _buildFormItem(Key key ,String title, String input) {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+  //     child: Column(
+  //       children: <Widget>[
+  //         Align(
+  //           alignment: Alignment.centerLeft,
+  //           child: Text(
+  //             title,
+  //             style: TextStyle(
+  //                 fontSize: 20.0,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Colors.black),
+  //           ),
+  //         ),
+  //         TextField(
+  //           key: key,
+  //           onChanged: (value) {
+  //             input = value;
+  //           },
+  //           decoration: InputDecoration(
+  //               hintText: title,
+  //               hintStyle: TextStyle(
+  //                   color: Colors.grey,
+  //                   fontWeight: FontWeight.w500,
+  //                   fontSize: 12.0)),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget _buildColorOptions(Color color, bool isSelected) {
+  Widget _buildColorOptions(Color color, bool isSelected, String colorName) {
     isSelected = false;
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
@@ -172,6 +272,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
         onTap: () {
           setState(() {
             isSelected = !isSelected;
+            colorName = color.toString();
           });
         },
         child: isSelected
@@ -212,6 +313,8 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                     _controller.forward();
                     move = _controller.value.abs();
                   });
+                  // Navigator.pushNamed(context, 'todo');
+                  _uploadDataToFirebase();
                 },
                 child: Transform(
                   transform: Matrix4.translationValues(move, 0.0, 0.0),
@@ -226,11 +329,24 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
     );
   }
 
-  // _onDrag(DragUpdateDetails details) {
-  //   setState(() {
-  //     move = move + details.delta.dx;
-  //   });
-  // }
+  _uploadDataToFirebase(){
+    // db = Firestore.instance;
+    DocumentReference databaseRef =
+        Firestore.instance.collection("todo").document(taskTitle);
+
+    Map<String, dynamic> tasks = {
+      "title": taskTitle,
+      "time": taskTime,
+      "description": taskDes,
+      "color": taskColor
+    };
+    // databaseRef.add(tasks).whenComplete((){
+    //   print('Task added');
+    // });
+    databaseRef.setData(tasks).whenComplete(() {
+      print('Task created!');
+    });
+  }
 }
 
 class ImageClipper extends CustomClipper<Path> {
