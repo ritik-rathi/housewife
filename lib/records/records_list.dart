@@ -74,12 +74,13 @@ class _RecordsState extends State<Records> {
     );
   }
 
-    Widget _buildList() {
+  Widget _buildList() {
     // final GlobalKey<AnimatedListState> _listKey =
     //     new GlobalKey<AnimatedListState>();
     return Expanded(
       child: StreamBuilder(
-          stream: Firestore.instance.collection("user/phone/records").snapshots(),
+          stream:
+              Firestore.instance.collection("user/phone/records").snapshots(),
           builder: (context, snapshots) {
             if (!snapshots.hasData) {
               return Center(
@@ -95,42 +96,87 @@ class _RecordsState extends State<Records> {
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data.documents[index];
                     return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: Row(
-                        children: <Widget>[
-                          new Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
-                            child: Container(
-                              height: 12.0,
-                              width: 12.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.cyan),
-                            ),
-                          ),
-                          new Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                new Text(
-                                  '${ds["role"]}',
-                                  style: TextStyle(
-                                      fontSize: 18.0, color: Colors.black),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 20.0),
+                      child: Align(
+                        alignment: index % 2 == 0
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
+                        child: Container(
+                          width: 300.0,
+                          height: 250.0,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15.0),
+                              border: Border.all(
+                                  color: Color.fromRGBO(212, 230, 252, 1.0)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromRGBO(212, 230, 252, 1.0),
+                                    offset: Offset(5.0, 25.0),
+                                    blurRadius: 80),
+                              ]),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8.0, left: 15.0),
+                                      child: Container(
+                                        alignment: Alignment.topLeft,
+                                        width: 90.0,
+                                        height: 90.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            border: Border.all()),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                new Text(
-                                  '${ds["name"]}',
-                                  style: TextStyle(
-                                      fontSize: 12.0, color: Colors.grey),
+                              ),
+                              SizedBox(
+                                width: 30.0,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Name: ',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(ds["name"]),
+                                    Text('Phone : ',
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(ds["phone"]),
+                                    Text('Role : ',
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: 10.0),
+                                    Text(ds["role"]),
+                                  ],
                                 ),
-                                new Text(
-                                  '${ds["phone"]}',
-                                  style: TextStyle(
-                                      fontSize: 12.0, color: Colors.grey),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     );
                   });

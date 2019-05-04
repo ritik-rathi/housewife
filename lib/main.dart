@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: NewTask(),
+      home: Records(),
       // initialRoute: '.',
       routes: {
         '.': (context) => SplashScreens(),
