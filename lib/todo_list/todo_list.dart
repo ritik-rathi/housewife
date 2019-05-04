@@ -43,8 +43,8 @@ class _TodoListState extends State<TodoList> {
               )),
           _buildHeaderIcons(context),
           _buildProfileRow(),
-          _buildBottomPart(),
           _buildTimeLine(),
+          _buildBottomPart(),          
           Positioned(right: -40.0, top: 150.0, child: Fab())
         ],
       ),
@@ -71,6 +71,9 @@ class _TodoListState extends State<TodoList> {
                   itemCount: snapshots.data.documents.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data.documents[index];
+                    int red = ds["color"]["r"];
+                    int green = ds["color"]["g"];
+                    int blue = ds["color"]["b"];
                     return Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
@@ -82,7 +85,7 @@ class _TodoListState extends State<TodoList> {
                               height: 12.0,
                               width: 12.0,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.cyan),
+                                  shape: BoxShape.circle, color: Color.fromRGBO(red, green, blue, 1.0)),
                             ),
                           ),
                           new Expanded(

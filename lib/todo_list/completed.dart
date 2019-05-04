@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-bool isSelected = false;
+// bool isSelected = false;
 
 class Completed extends StatefulWidget {
   @override
@@ -40,7 +40,7 @@ class _CompletedState extends State<Completed> {
   Widget _buildList() {
     return Expanded(
       child: StreamBuilder(
-          stream: Firestore.instance.collection("todo").snapshots(),
+          stream: Firestore.instance.collection("user/phone/todo").snapshots(),
           builder: (context, snapshots) {
             if (!snapshots.hasData) {
               return Center(
@@ -55,6 +55,7 @@ class _CompletedState extends State<Completed> {
                   itemCount: snapshots.data.documents.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data.documents[index];
+                    bool isSelected = false;
                     return Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
@@ -65,15 +66,16 @@ class _CompletedState extends State<Completed> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  // isSelected = !isSelected;
+                                  isSelected = !isSelected;
                                 });
-                                ds.data.update("completed", (selected) {
-                                  selected = true;
-                                  print(ds["completed"]);
-                                },
-                                ifAbsent: (){
-
-                                });
+                                // ds.data.putIfAbsent("completed", () => ds.reference.)
+                                // ds.data.update("completed", (selected) {
+                                //   selected = true;
+                                //   print(ds["completed"]);
+                                // },
+                                // ifAbsent: (){
+                                
+                                // });
                               },
                               child: isSelected
                                   ? Container(
