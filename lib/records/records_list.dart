@@ -32,7 +32,9 @@ class _RecordsState extends State<Records> {
             right: 10.0,
             top: 220.0,
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/newRecord');
+              },
               backgroundColor: Colors.pink,
               child: Icon(Icons.add_box),
             ),
@@ -75,17 +77,11 @@ class _RecordsState extends State<Records> {
     return Expanded(
       child: ListView(
         children: <Widget>[
-          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[0]),
-          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[1]),
-          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[2]),
-          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[3]),
-          //Divider(color: Color(0xfff20BDFF)),
           RecCard(rec: records[4]),
-          //Divider(color: Color(0xfff20BDFF)),
         ],
       ),
     );

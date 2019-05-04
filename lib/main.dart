@@ -9,6 +9,7 @@ import 'onlineShop/home.dart';
 import 'bottom_navbar/navbar.dart';
 import 'records/records_list.dart';
 import 'records/screens/maid.dart';
+import 'records/screens/new_record.dart';
 
 Color color1 = Colors.blue[500];
 Color color2 = Colors.blue[700];
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: LoginNew(),
+      home: Records(),
       // initialRoute: '.',
       routes: {
         '.': (context) => SplashScreens(),
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         'fruitList': (context) => FruitList(),
         'onlineFruits': (context) => OnlineFruits(),
         'maid': (context) => Maid(),
-        '/newtask':(context)=>NewTask()
+        '/newtask':(context)=>NewTask(),
+        '/newRecords': (context) => NewRecord()
       },
     );
   }
