@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fun_app/splash_screens/splash_screens.dart';
+import 'package:fun_app/todo_list/completed.dart';
 import 'package:fun_app/todo_list/newtask.dart';
 import 'package:fun_app/todo_list/todo_list.dart';
 import 'login.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: LoginNew(),
+      home: TodoList(),
       // initialRoute: '.',
       routes: {
         '.': (context) => SplashScreens(),
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         'fruitList': (context) => FruitList(),
         'onlineFruits': (context) => OnlineFruits(),
         'maid': (context) => Maid(),
-        '/newtask':(context)=>NewTask()
+        '/newtask':(context)=>NewTask(),
+        '/completed':(context) => Completed()
       },
     );
   }

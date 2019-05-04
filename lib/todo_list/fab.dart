@@ -45,7 +45,7 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
               children: <Widget>[
                 _buildExpandedBackground(),
                 _hiddenIcons(Icons.add, 0.0 , '/newtask'),
-                _hiddenIcons(Icons.flash_on, -math.pi / 3 , '/newtask'),
+                _hiddenIcons(Icons.check_box, -math.pi / 3 , '/completed'),
                 _hiddenIcons(Icons.access_time, -2 * math.pi / 3 , '/newtask'),
                 _hiddenIcons(Icons.error_outline, math.pi , '/newtask'),
                 FloatingActionButton(
@@ -77,7 +77,7 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
                     angle: -angle,
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/newtask');
+                        Navigator.pushNamed(context, pageRoute);
                       },
                       icon: Icon(icon),
                       color: Colors.white,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fun_app/todo_list/firebase_service.dart';
+import 'package:fun_app/firebase_service.dart';
 import 'package:fun_app/todo_list/tasks.dart';
 
 class NewTask extends StatefulWidget {
@@ -27,7 +27,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   Animation<double> animation;
   Animation<Color> colorAnim;
 
-  FirebaseService firebase;
+  // FirebaseService firebase; // ! don't use for todo list
 
   // Key titleKey = new UniqueKey();
   // Key timeKey = new UniqueKey();

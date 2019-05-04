@@ -1,27 +1,15 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fun_app/todo_list/fab.dart';
-// import 'package:fun_app/todo_list/firebase_service.dart';
 
- int dateDay = new DateTime.now().day;
- int dateMonth = new DateTime.now().month;
- int dateYear = new DateTime.now().year;
-class TodoList extends StatefulWidget {
+bool isSelected = false;
+
+class Completed extends StatefulWidget {
   @override
-  _TodoListState createState() => _TodoListState();
+  _CompletedState createState() => _CompletedState();
 }
 
-class _TodoListState extends State<TodoList> {
-
-  double _imageHeight = 256.0;
- 
-  // List<Tasks> items;
-  // FirebaseService firebase = new FirebaseService();
-  // StreamSubscription<QuerySnapshot> todoTasks;
-
-  // Animation<Color> _animation;
+class _CompletedState extends State<Completed> {
+  double _imageHeight = 256.0; // image height can vary from screen to screen
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +30,14 @@ class _TodoListState extends State<TodoList> {
                 color: new Color.fromARGB(120, 20, 10, 40),
               )),
           _buildHeaderIcons(context),
-          _buildProfileRow(),
-          _buildBottomPart(),
           _buildTimeLine(),
-          Positioned(right: -40.0, top: 150.0, child: Fab())
+          _buildBottomPart(),
         ],
       ),
     );
   }
 
   Widget _buildList() {
-    // final GlobalKey<AnimatedListState> _listKey =
-    //     new GlobalKey<AnimatedListState>();
     return Expanded(
       child: StreamBuilder(
           stream: Firestore.instance.collection("todo").snapshots(),
@@ -78,11 +62,38 @@ class _TodoListState extends State<TodoList> {
                           new Padding(
                             padding:
                                 EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
-                            child: Container(
-                              height: 12.0,
-                              width: 12.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.cyan),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  // isSelected = !isSelected;
+                                });
+                                ds.data.update("completed", (selected) {
+                                  selected = true;
+                                  print(ds["completed"]);
+                                },
+                                ifAbsent: (){
+
+                                });
+                              },
+                              child: isSelected
+                                  ? Container(
+                                      height: 22.0,
+                                      width: 22.0,
+                                      child: Icon(Icons.check,
+                                          color: Colors.green,),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          color: Colors.white,
+                                          border: Border.all()),
+                                    )
+                                  : Container(
+                                      height: 22.0,
+                                      width: 22.0,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          color: Colors.white,
+                                          border: Border.all()),
+                                    ),
                             ),
                           ),
                           new Expanded(
@@ -126,43 +137,25 @@ class _TodoListState extends State<TodoList> {
       ),
     );
   }
-}
 
-// ! make the row to display photo and name of the person
-Widget _buildProfileRow() {
-  return new Padding(
-    padding: EdgeInsets.only(left: 64.0, top: 100.0),
-    child: new Row(
-      children: <Widget>[
-        Container(
-          width: 50.0,
-          height: 50.0,
-          decoration: BoxDecoration(
-              border: Border.all(width: 1.0, color: Colors.white),
-              borderRadius: BorderRadius.circular(25.0)),
-        )
-      ],
-    ),
-  );
-}
-
-Widget _buildListHeader() {
-  return Padding(
-    padding: EdgeInsets.only(left: 64.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        new Text(
-          'My Tasks',
-          style: new TextStyle(fontSize: 34.0),
-        ),
-        new Text(
-          '${dateDay} / ${dateMonth} / ${dateYear}', // ? enter the date from Firebase
-          style: new TextStyle(color: Colors.grey, fontSize: 12.0),
-        ),
-      ],
-    ),
-  );
+  Widget _buildListHeader() {
+    return Padding(
+      padding: EdgeInsets.only(left: 64.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Text(
+            'Completed?',
+            style: new TextStyle(fontSize: 34.0),
+          ),
+          Text(
+            'Automatically deletes completed tasks',
+            style: TextStyle(color: Colors.grey, fontSize: 12.0),
+          )
+        ],
+      ),
+    );
+  }
 }
 
 Widget _buildTimeLine() {

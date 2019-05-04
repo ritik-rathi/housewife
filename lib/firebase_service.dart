@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'tasks.dart';
 import 'package:flutter/material.dart';
+import 'package:fun_app/todo_list/tasks.dart';
 
 class FirebaseService {
   CollectionReference cRef = Firestore.instance.collection("todo");
@@ -17,7 +17,6 @@ class FirebaseService {
       await tx.set(ds.reference, data);
       print(data);
       return data;
-      
     };
     return Firestore.instance.runTransaction(createTransaction).then((mapData) {
       return Tasks.fromMap(mapData);
