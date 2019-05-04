@@ -164,12 +164,12 @@ class _LoginState extends State<Login> {
 //       _verificationId = verId;
 //     };
 
-//     final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
-//       _verificationId = verId;
-//       smsCodeDialog(context).then((value) {
-//         print('Signed In');
-//       });
-//     };
+    // final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+    //   _verificationId = verId;
+    //   smsCodeDialog(context).then((value) {
+    //     print('Signed In');
+    //   });
+    // };
 
 //     final PhoneVerificationCompleted verifiedSucc = (FirebaseUser user) {
 //       print('Verified');
@@ -188,36 +188,36 @@ class _LoginState extends State<Login> {
 //         verificationFailed: verifiedFail);
 //   }
 
-//   Future<bool> smsCodeDialog(BuildContext context) {
-//     return showDialog(
-//         context: context,
-//         barrierDismissible: false,
-//         builder: (BuildContext context) {
-//           return new AlertDialog(
-//             title: Text('enter SMS code'),
-//             content: TextField(
-//               onChanged: (value) => _smsCode = value,
-//             ),
-//             contentPadding: EdgeInsets.all(10),
-//             actions: <Widget>[
-//               FlatButton(
-//                 child: Text('Done'),
-//                 onPressed: () {
-//                   FirebaseAuth.instance.currentUser().then((user) {
-//                     if (user != null) {
-//                       Navigator.of(context).pop();
-//                       Navigator.pushReplacementNamed(context, 'home');
-//                     } else {
-//                       Navigator.of(context).pop();
-//                       _signInWithPhoneNumber();
-//                     }
-//                   });
-//                 },
-//               )
-//             ],
-//           );
-//         });
-//   }
+  // Future<bool> smsCodeDialog(BuildContext context) {
+  //   return showDialog(
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (BuildContext context) {
+  //         return new AlertDialog(
+  //           title: Text('enter SMS code'),
+  //           content: TextField(
+  //             onChanged: (value) => _smsCode = value,
+  //           ),
+  //           contentPadding: EdgeInsets.all(10),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: Text('Done'),
+  //               onPressed: () {
+  //                 FirebaseAuth.instance.currentUser().then((user) {
+  //                   if (user != null) {
+  //                     Navigator.of(context).pop();
+  //                     Navigator.pushReplacementNamed(context, 'home');
+  //                   } else {
+  //                     Navigator.of(context).pop();
+  //                     _signInWithPhoneNumber();
+  //                   }
+  //                 });
+  //               },
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
 
 //   void _signInWithPhoneNumber() async {
 //     final AuthCredential credential = PhoneAuthProvider.getCredential(

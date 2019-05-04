@@ -17,6 +17,9 @@ class LoginNew extends StatefulWidget {
 }
 
 class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
+
+  TextEditingController ph = new TextEditingController();
+
   final GlobalKey<FormState> _newKey = GlobalKey<FormState>();
 
   Future<void> _uploadData() async{
@@ -113,6 +116,7 @@ class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
                               ),
                               SizedBox(height: 10),
                               TextFormField(
+                                controller: ph,
                                 style: TextStyle(color: Colors.white),
                                 onSaved: (value) => _phone = value,
                                 keyboardType: TextInputType.phone,
@@ -184,14 +188,52 @@ class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
       });
     };
 
-    final PhoneCodeSent codeSent =
-        (String verificationId, [int forceResendingToken]) async {
-      widget.scaffold.showSnackBar(SnackBar(
-        content:
-            const Text('Please check your phone for the verification code.'),
-      ));
-      _verificationId = verificationId;
+    Future<bool> smsCodeDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: Text('enter SMS code'),
+            content: TextField(
+              onChanged: (value) => _smsCode = value,
+            ),
+            contentPadding: EdgeInsets.all(10),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Done'),
+                onPressed: () {
+                  FirebaseAuth.instance.currentUser().then((user) {
+                    if (user != null) {
+                      Navigator.of(context).pop();
+                      Navigator.pushReplacementNamed(context, '.');
+                    } else {
+                      Navigator.of(context).pop();
+                      _signInWithPhoneNumber();
+                    }
+                  });
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+      _verificationId = verId;
+      smsCodeDialog(context).then((value) {
+        print('Signed In');
+      });
     };
+
+    // final PhoneCodeSent codeSent =
+    //     (String verificationId, [int forceResendingToken]) async {
+    //   widget.scaffold.showSnackBar(SnackBar(
+    //     content:
+    //         const Text('Please check your phone for the verification code.'),
+    //   ));
+    //   _verificationId = verificationId;
+    // };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {
@@ -199,11 +241,11 @@ class _LoginNewState extends State<LoginNew> with TickerProviderStateMixin {
     };
 
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: _phone,
+        phoneNumber: "+91${ph.text}",
         timeout: const Duration(seconds: 5),
         verificationCompleted: verificationCompleted,
         verificationFailed: verificationFailed,
-        codeSent: codeSent,
+        codeSent: smsCodeSent,
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
   }
 
