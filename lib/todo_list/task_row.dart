@@ -37,7 +37,7 @@ class _TaskRowState extends State<TaskRow> {
                   style: TextStyle(fontSize: 18.0, color: Colors.black),
                 ),
                 new Text(
-                  widget.task.category,
+                  widget.task.description,
                   style: TextStyle(fontSize: 12.0, color: Colors.grey),
                 )
               ],

@@ -1,34 +1,9 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fun_app/todo_list/fab.dart';
-import 'package:fun_app/todo_list/task_row.dart';
-import 'package:fun_app/todo_list/tasks.dart';
-
-List<Tasks> tasks = [
-  new Tasks(
-      title: "Make new icons",
-      category: "App",
-      time: "3pm",
-      color: Colors.cyan,
-      completed: true),
-  new Tasks(
-      title: "Design explorations",
-      category: "Company Website",
-      time: "2pm",
-      color: Colors.pink,
-      completed: false),
-  new Tasks(
-      title: "Lunch",
-      category: "House",
-      time: "12pm",
-      color: Colors.cyan,
-      completed: true),
-  new Tasks(
-      title: "Team Meeting",
-      category: "Hangouts",
-      time: "10am",
-      color: Colors.cyan,
-      completed: true),
-];
+// import 'package:fun_app/todo_list/firebase_service.dart';
 
 class TodoList extends StatefulWidget {
   @override
@@ -36,7 +11,14 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+
   double _imageHeight = 256.0;
+  // List<Tasks> items;
+  // FirebaseService firebase = new FirebaseService();
+  // StreamSubscription<QuerySnapshot> todoTasks;
+
+  // Animation<Color> _animation;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,30 +41,87 @@ class _TodoListState extends State<TodoList> {
           _buildProfileRow(),
           _buildBottomPart(),
           _buildTimeLine(),
-          Positioned(
-            right: -40.0,
-            top: 150.0,
-            child: Fab()
-          )
+          Positioned(right: -40.0, top: 150.0, child: Fab())
         ],
       ),
     );
   }
-}
 
-Widget _buildList() {
-  final GlobalKey<AnimatedListState> _listKey =
-      new GlobalKey<AnimatedListState>();
-  return Expanded(
-    child: AnimatedList(
-        key: _listKey,
-        initialItemCount: tasks.length,
-        itemBuilder: (context, index, animation) {
-          return new TaskRow(
-            task: tasks[index],
-          );
-        }),
-  );
+  Widget _buildList() {
+    // final GlobalKey<AnimatedListState> _listKey =
+    //     new GlobalKey<AnimatedListState>();
+    return Expanded(
+      child: StreamBuilder(
+          stream: Firestore.instance.collection("todo").snapshots(),
+          builder: (context, snapshots) {
+            if (!snapshots.hasData) {
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 1.0,
+                  backgroundColor: Colors.black,
+                  // valueColor: _animation,
+                ),
+              );
+            } else {
+              return ListView.builder(
+                  itemCount: snapshots.data.documents.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot ds = snapshots.data.documents[index];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Row(
+                        children: <Widget>[
+                          new Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
+                            child: Container(
+                              height: 12.0,
+                              width: 12.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.cyan),
+                            ),
+                          ),
+                          new Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Text(
+                                  '${ds["title"]}',
+                                  style: TextStyle(
+                                      fontSize: 18.0, color: Colors.black),
+                                ),
+                                new Text(
+                                  '${ds["description"]}',
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.grey),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 16.0),
+                            child: Text('${ds["time"]}',
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.grey)),
+                          )
+                        ],
+                      ),
+                    );
+                  });
+            }
+          }),
+    );
+  }
+
+  Widget _buildBottomPart() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 270.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[_buildListHeader(), _buildList()],
+      ),
+    );
+  }
 }
 
 // ! make the row to display photo and name of the person
@@ -99,16 +138,6 @@ Widget _buildProfileRow() {
               borderRadius: BorderRadius.circular(25.0)),
         )
       ],
-    ),
-  );
-}
-
-Widget _buildBottomPart() {
-  return Padding(
-    padding: const EdgeInsets.only(top: 270.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[_buildListHeader(), _buildList()],
     ),
   );
 }
@@ -149,9 +178,11 @@ Widget _buildHeaderIcons(context) {
     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 25.0),
     child: Row(
       children: <Widget>[
-        GestureDetector(onTap: (){
-          Navigator.pushNamed(context, '.');
-        },child: Icon(Icons.arrow_back_ios, color: Colors.white, size: 32.0)),
+        GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '.');
+            },
+            child: Icon(Icons.arrow_back_ios, color: Colors.white, size: 32.0)),
         new Expanded(
           child: new Padding(
             padding: const EdgeInsets.only(left: 8.0),

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fun_app/todo_list/firebase_service.dart';
+import 'package:fun_app/todo_list/tasks.dart';
 
 class NewTask extends StatefulWidget {
+  // Tasks task;
+
+  // NewTask({this.task});
   @override
   _NewTaskState createState() => _NewTaskState();
 }
@@ -21,6 +26,8 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> animation;
   Animation<Color> colorAnim;
+
+  FirebaseService firebase;
 
   // Key titleKey = new UniqueKey();
   // Key timeKey = new UniqueKey();
@@ -107,6 +114,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                           onChanged: (value) {
                             taskTitle = value;
                           },
+                          // controller: _taskTitleController,
                           decoration: InputDecoration(
                               hintText: 'Title',
                               hintStyle: TextStyle(
@@ -136,6 +144,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                           onChanged: (value) {
                             taskTime = value;
                           },
+                          // controller: _taskTimeController,
                           decoration: InputDecoration(
                               hintText: 'Time',
                               hintStyle: TextStyle(
@@ -165,6 +174,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                           onChanged: (value) {
                             taskDes = value;
                           },
+                          // controller: _taskDesController,
                           decoration: InputDecoration(
                               hintText: 'Description',
                               hintStyle: TextStyle(
@@ -175,9 +185,6 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  // _buildFormItem(titleKey,'Title', taskTitle),
-                  // _buildFormItem(timeKey,'Time', taskTime),
-                  // _buildFormItem(desKey,'Description', taskDes),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -308,12 +315,11 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
           children: <Widget>[
             GestureDetector(
                 onTap: () {
-                  // _controller.forward();
                   setState(() {
                     _controller.forward();
                     move = _controller.value.abs();
                   });
-                  // Navigator.pushNamed(context, 'todo');
+                  Navigator.pushNamed(context, 'todo');
                   _uploadDataToFirebase();
                 },
                 child: Transform(
@@ -328,8 +334,8 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
       ),
     );
   }
-
-  _uploadDataToFirebase(){
+  // function working properly
+  _uploadDataToFirebase() {
     // db = Firestore.instance;
     DocumentReference databaseRef =
         Firestore.instance.collection("todo").document(taskTitle);
@@ -340,9 +346,6 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
       "description": taskDes,
       "color": taskColor
     };
-    // databaseRef.add(tasks).whenComplete((){
-    //   print('Task added');
-    // });
     databaseRef.setData(tasks).whenComplete(() {
       print('Task created!');
     });
