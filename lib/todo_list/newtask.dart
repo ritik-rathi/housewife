@@ -111,7 +111,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         TextField(
-                          onChanged: (value) {
+                            onChanged: (value) {
                             taskTitle = value;
                           },
                           // controller: _taskTitleController,
@@ -338,7 +338,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   _uploadDataToFirebase() {
     // db = Firestore.instance;
     DocumentReference databaseRef =
-        Firestore.instance.collection("todo").document(taskTitle);
+        Firestore.instance.collection("/user/phone/todo").document(taskTitle);
 
     Map<String, dynamic> tasks = {
       "title": taskTitle,

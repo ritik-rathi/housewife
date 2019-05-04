@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fun_app/todo_list/firebase_service.dart';
 
 class NewRecord extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMix
   double _imageHeight = 256.0;
   double move = 10.0;
 
-  String taskTitle = '', taskTime = '', taskDes = '', taskColor = '';
+  String role = '', name = '', phone = '';
 
   bool isRedSelected = false;
   bool isGreenSelected = false;
@@ -105,7 +106,7 @@ class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMix
                         ),
                         TextField(
                           onChanged: (value) {
-                            taskTitle = value;
+                            name = value;
                           },
                           decoration: InputDecoration(
                               hintText: 'Name',
@@ -134,7 +135,7 @@ class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMix
                         ),
                         TextField(
                           onChanged: (value) {
-                            taskTime = value;
+                            role = value;
                           },
                           decoration: InputDecoration(
                               hintText: 'Role',
@@ -164,7 +165,7 @@ class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMix
                         TextField(
                           keyboardType: TextInputType.phone,
                           onChanged: (value) {
-                            taskDes = value;
+                            phone = value;
                           },
                           decoration: InputDecoration(
                               hintText: 'Phone',
@@ -179,20 +180,20 @@ class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMix
                   // _buildFormItem(titleKey,'Title', taskTitle),
                   // _buildFormItem(timeKey,'Time', taskTime),
                   // _buildFormItem(desKey,'Description', taskDes),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 20.0, right: 20.0),
-                      child: Text(
-                        'Color',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(
+                  //         top: 10.0, left: 20.0, right: 20.0),
+                  //     child: Text(
+                  //       'Color',
+                  //       style: TextStyle(
+                  //           color: Colors.black,
+                  //           fontSize: 20.0,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //   ),
+                  // ),
                   _buildSubmitButton()
                 ],
               ),
@@ -301,7 +302,7 @@ class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMix
                     _controller.forward();
                     move = _controller.value.abs();
                   });
-                  // Navigator.pushNamed(context, 'todo');
+                   Navigator.pushNamed(context, 'records');
                   _uploadDataToFirebase();
                 },
                 child: Transform(
@@ -320,13 +321,12 @@ class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMix
   _uploadDataToFirebase(){
     // db = Firestore.instance;
     DocumentReference databaseRef =
-        Firestore.instance.collection("todo").document(taskTitle);
+        Firestore.instance.collection("/user/phone/records").document(role);
 
     Map<String, dynamic> tasks = {
-      "title": taskTitle,
-      "time": taskTime,
-      "description": taskDes,
-      "color": taskColor
+      "role": role,
+      "name": name,
+      "phone": phone
     };
     // databaseRef.add(tasks).whenComplete((){
     //   print('Task added');

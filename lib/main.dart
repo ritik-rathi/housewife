@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         'onlineFruits': (context) => OnlineFruits(),
         'maid': (context) => Maid(),
         '/newtask':(context)=>NewTask(),
-        '/newRecords': (context) => NewRecord()
+        '/newRecord': (context) => NewRecord()
       },
     );
   }
