@@ -6,16 +6,46 @@ class NewTask extends StatefulWidget {
   _NewTaskState createState() => _NewTaskState();
 }
 
-class _NewTaskState extends State<NewTask> {
+class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   double _imageHeight = 256.0;
+  double move = 10.0;
+
+  String taskTitle = '', taskTime = '', taskDes = '', taskColor = '';
+
   bool isRedSelected = false;
   bool isGreenSelected = false;
   bool isCyanSelected = false;
   bool isOrangeSelected = false;
   bool isYellowSelected = false;
 
+  AnimationController _controller;
+  Animation<double> animation;
+  Animation<Color> colorAnim;
+
+  // Key titleKey = new UniqueKey();
+  // Key timeKey = new UniqueKey();
+  // Key desKey = new UniqueKey();
+
+  @override
+  void initState() {
+    _controller = new AnimationController(
+        vsync: this, duration: Duration(milliseconds: 900));
+    animation = new Tween(begin: 10.0, end: 280.0).animate(_controller);
+    colorAnim = new Tween(begin: Colors.red[200], end: Colors.green[200])
+        .animate(_controller);
+    _controller.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // _controller.forward();
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
@@ -58,9 +88,96 @@ class _NewTaskState extends State<NewTask> {
                         fontSize: 40.0,
                         fontWeight: FontWeight.w100),
                   ),
-                  _buildFormItem('Title'),
-                  _buildFormItem('Time'),
-                  _buildFormItem('Description'),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Title',
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                        TextField(
+                          onChanged: (value) {
+                            taskTitle = value;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Title',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.0)),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Time',
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                        TextField(
+                          onChanged: (value) {
+                            taskTime = value;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Time',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.0)),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Description',
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ),
+                        TextField(
+                          onChanged: (value) {
+                            taskDes = value;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Description',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.0)),
+                        )
+                      ],
+                    ),
+                  ),
+                  // _buildFormItem(titleKey,'Title', taskTitle),
+                  // _buildFormItem(timeKey,'Time', taskTime),
+                  // _buildFormItem(desKey,'Description', taskDes),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -77,29 +194,18 @@ class _NewTaskState extends State<NewTask> {
                   ),
                   Row(
                     children: <Widget>[
-                      _buildColorOptions(Colors.red , isRedSelected),
-                      _buildColorOptions(Colors.cyan , isCyanSelected),
-                      _buildColorOptions(Colors.yellow , isYellowSelected),
-                      _buildColorOptions(Colors.deepOrange , isOrangeSelected),
-                      _buildColorOptions(Colors.greenAccent , isGreenSelected)
+                      _buildColorOptions(Colors.red, isRedSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.cyan, isCyanSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.yellow, isYellowSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.deepOrange, isOrangeSelected, taskColor),
+                      _buildColorOptions(
+                          Colors.green, isGreenSelected, taskColor)
                     ],
-                  )
-                  // Container(
-                  //   height: 50.0,
-                  //   width: double.infinity,
-                  //   decoration: BoxDecoration(
-                  //     border: Border.all(width: 1.0 , color: Colors.deepPurple),
-                  //     borderRadius: BorderRadius.circular(25.0)
-                  //   ),
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(20.0),
-                  //     child: TextField(
-                  //       decoration: InputDecoration.collapsed(
-                  //         hintText: 'Title'
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
+                  ),
+                  _buildSubmitButton()
                 ],
               ),
               decoration: BoxDecoration(
@@ -126,42 +232,47 @@ class _NewTaskState extends State<NewTask> {
     );
   }
 
-  Widget _buildFormItem(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-      child: Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-          ),
-          TextField(
-            onSubmitted: (value) {},
-            decoration: InputDecoration(
-                hintText: title,
-                hintStyle: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0)),
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _buildFormItem(Key key ,String title, String input) {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+  //     child: Column(
+  //       children: <Widget>[
+  //         Align(
+  //           alignment: Alignment.centerLeft,
+  //           child: Text(
+  //             title,
+  //             style: TextStyle(
+  //                 fontSize: 20.0,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Colors.black),
+  //           ),
+  //         ),
+  //         TextField(
+  //           key: key,
+  //           onChanged: (value) {
+  //             input = value;
+  //           },
+  //           decoration: InputDecoration(
+  //               hintText: title,
+  //               hintStyle: TextStyle(
+  //                   color: Colors.grey,
+  //                   fontWeight: FontWeight.w500,
+  //                   fontSize: 12.0)),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget _buildColorOptions(Color color, bool isSelected) {
+  Widget _buildColorOptions(Color color, bool isSelected, String colorName) {
+    isSelected = false;
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
       child: InkWell(
         onTap: () {
           setState(() {
             isSelected = !isSelected;
+            colorName = color.toString();
           });
         },
         child: isSelected
@@ -185,6 +296,56 @@ class _NewTaskState extends State<NewTask> {
               ),
       ),
     );
+  }
+
+  Widget _buildSubmitButton() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
+      child: Container(
+        width: double.infinity,
+        height: 60.0,
+        child: Stack(
+          children: <Widget>[
+            GestureDetector(
+                onTap: () {
+                  // _controller.forward();
+                  setState(() {
+                    _controller.forward();
+                    move = _controller.value.abs();
+                  });
+                  // Navigator.pushNamed(context, 'todo');
+                  _uploadDataToFirebase();
+                },
+                child: Transform(
+                  transform: Matrix4.translationValues(move, 0.0, 0.0),
+                  child: Icon(Icons.arrow_forward_ios,
+                      color: Colors.white, size: 45.0),
+                ))
+          ],
+        ),
+        decoration: BoxDecoration(
+            color: colorAnim.value, borderRadius: BorderRadius.circular(15.0)),
+      ),
+    );
+  }
+
+  _uploadDataToFirebase(){
+    // db = Firestore.instance;
+    DocumentReference databaseRef =
+        Firestore.instance.collection("todo").document(taskTitle);
+
+    Map<String, dynamic> tasks = {
+      "title": taskTitle,
+      "time": taskTime,
+      "description": taskDes,
+      "color": taskColor
+    };
+    // databaseRef.add(tasks).whenComplete((){
+    //   print('Task added');
+    // });
+    databaseRef.setData(tasks).whenComplete(() {
+      print('Task created!');
+    });
   }
 }
 
