@@ -1,22 +1,20 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fun_app/todo_list/fab.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:fun_app/todo_list/firebase_service.dart';
 
- int dateDay = new DateTime.now().day;
- int dateMonth = new DateTime.now().month;
- int dateYear = new DateTime.now().year;
+int dateDay = new DateTime.now().day;
+int dateMonth = new DateTime.now().month;
+int dateYear = new DateTime.now().year;
+
 class TodoList extends StatefulWidget {
   @override
   _TodoListState createState() => _TodoListState();
 }
 
 class _TodoListState extends State<TodoList> {
-
   double _imageHeight = 256.0;
- 
   // List<Tasks> items;
   // FirebaseService firebase = new FirebaseService();
   // StreamSubscription<QuerySnapshot> todoTasks;
@@ -44,8 +42,8 @@ class _TodoListState extends State<TodoList> {
           _buildHeaderIcons(context),
           _buildProfileRow(),
           _buildTimeLine(),
-          _buildBottomPart(),          
-          Positioned(right: -40.0, top: 150.0, child: Fab())
+          _buildBottomPart(),
+          Positioned(right: -40, top: 150.0, child: Fab())
         ],
       ),
     );
@@ -74,44 +72,57 @@ class _TodoListState extends State<TodoList> {
                     int red = ds["color"]["r"];
                     int green = ds["color"]["g"];
                     int blue = ds["color"]["b"];
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: Row(
-                        children: <Widget>[
-                          new Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
-                            child: Container(
-                              height: 12.0,
-                              width: 12.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: Color.fromRGBO(red, green, blue, 1.0)),
+                    return Dismissible(
+                      key: new UniqueKey(),
+                      background: new Container(color: Colors.red,),
+                      onDismissed: (direction){
+                        // ds.data.clear();
+                        setState(() {
+                          Firestore.instance.collection('user/phone/todo').document(ds["title"]).delete();
+                        });                       
+                        Scaffold.of(context).showSnackBar(new SnackBar(content: Text('Item removed'),));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Row(
+                          children: <Widget>[
+                            new Padding(
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
+                              child: Container(
+                                height: 12.0,
+                                width: 12.0,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        Color.fromRGBO(red, green, blue, 1.0)),
+                              ),
                             ),
-                          ),
-                          new Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                new Text(
-                                  '${ds["title"]}',
-                                  style: TextStyle(
-                                      fontSize: 18.0, color: Colors.black),
-                                ),
-                                new Text(
-                                  '${ds["description"]}',
-                                  style: TextStyle(
-                                      fontSize: 12.0, color: Colors.grey),
-                                )
-                              ],
+                            new Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Text(
+                                    '${ds["title"]}',
+                                    style: TextStyle(
+                                        fontSize: 18.0, color: Colors.black),
+                                  ),
+                                  new Text(
+                                    '${ds["description"]}',
+                                    style: TextStyle(
+                                        fontSize: 12.0, color: Colors.grey),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 16.0),
-                            child: Text('${ds["time"]}',
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.grey)),
-                          )
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(right: 16.0),
+                              child: Text('${ds["time"]}',
+                                  style: TextStyle(
+                                      fontSize: 18.0, color: Colors.grey)),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   });
