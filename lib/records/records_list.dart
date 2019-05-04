@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fun_app/todo_list/todo_list.dart';
 import 'record_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Records extends StatefulWidget {
   @override
@@ -32,7 +33,9 @@ class _RecordsState extends State<Records> {
             right: 10.0,
             top: 220.0,
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/newRecord');
+              },
               backgroundColor: Colors.pink,
               child: Icon(Icons.add_box),
             ),
@@ -71,23 +74,68 @@ class _RecordsState extends State<Records> {
     );
   }
 
-  Widget _buildList() {
+    Widget _buildList() {
+    // final GlobalKey<AnimatedListState> _listKey =
+    //     new GlobalKey<AnimatedListState>();
     return Expanded(
-      child: ListView(
-        children: <Widget>[
-          //Divider(color: Color(0xfff20BDFF)),
-          RecCard(rec: records[0]),
-          //Divider(color: Color(0xfff20BDFF)),
-          RecCard(rec: records[1]),
-          //Divider(color: Color(0xfff20BDFF)),
-          RecCard(rec: records[2]),
-          //Divider(color: Color(0xfff20BDFF)),
-          RecCard(rec: records[3]),
-          //Divider(color: Color(0xfff20BDFF)),
-          RecCard(rec: records[4]),
-          //Divider(color: Color(0xfff20BDFF)),
-        ],
-      ),
+      child: StreamBuilder(
+          stream: Firestore.instance.collection("user/phone/records").snapshots(),
+          builder: (context, snapshots) {
+            if (!snapshots.hasData) {
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 1.0,
+                  backgroundColor: Colors.black,
+                  // valueColor: _animation,
+                ),
+              );
+            } else {
+              return ListView.builder(
+                  itemCount: snapshots.data.documents.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot ds = snapshots.data.documents[index];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Row(
+                        children: <Widget>[
+                          new Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
+                            child: Container(
+                              height: 12.0,
+                              width: 12.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.cyan),
+                            ),
+                          ),
+                          new Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Text(
+                                  '${ds["role"]}',
+                                  style: TextStyle(
+                                      fontSize: 18.0, color: Colors.black),
+                                ),
+                                new Text(
+                                  '${ds["name"]}',
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.grey),
+                                ),
+                                new Text(
+                                  '${ds["phone"]}',
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.grey),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+            }
+          }),
     );
   }
 }

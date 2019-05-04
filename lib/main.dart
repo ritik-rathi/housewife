@@ -3,13 +3,12 @@ import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'package:fun_app/todo_list/completed.dart';
 import 'package:fun_app/todo_list/newtask.dart';
 import 'package:fun_app/todo_list/todo_list.dart';
-import 'login.dart';
 import 'help_screens/fruits.dart';
 import 'login_new.dart';
 import 'onlineShop/home.dart';
-import 'bottom_navbar/navbar.dart';
 import 'records/records_list.dart';
 import 'records/screens/maid.dart';
+import 'records/screens/new_record.dart';
 
 Color color1 = Colors.blue[500];
 Color color2 = Colors.blue[700];
@@ -37,7 +36,8 @@ class MyApp extends StatelessWidget {
         'onlineFruits': (context) => OnlineFruits(),
         'maid': (context) => Maid(),
         '/newtask':(context)=>NewTask(),
-        '/completed':(context) => Completed()
+        '/completed':(context) => Completed(),
+        '/newRecord': (context) => NewRecord()
       },
     );
   }

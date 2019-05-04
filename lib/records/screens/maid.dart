@@ -17,7 +17,7 @@ class _MaidState extends State<Maid> {
         centerTitle: true,
         title: Text('Maid Account',
             style: TextStyle(
-              color: Color(0xfff20BDff), fontSize: 30,
+              color: Colors.black, fontSize: 30,
               // shadows: [
               //   Shadow(color: Colors.black, offset: Offset(-1.0, 2.0)),
               //   Shadow(color: Colors.black, offset: Offset(-2.0, -2.0)),
@@ -25,7 +25,7 @@ class _MaidState extends State<Maid> {
               // ]
             )),
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Color(0xfff20BDff)),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Container(
         child:
@@ -35,7 +35,7 @@ class _MaidState extends State<Maid> {
             //         begin: Alignment.bottomCenter,
             //         colors: [
             //       Colors.white,
-            //       Color(0xfff20BDFF),
+            //       Colors.black,
             //       //Color(0xff1034a6)
             //     ])),
             ListView(
@@ -48,7 +48,7 @@ class _MaidState extends State<Maid> {
             //           begin: Alignment.centerRight,
             //           colors: [
             //         Colors.white,
-            //         Color(0xfff20BDFF),
+            //         Colors.black,
             //         //Color(0xff1034a6)
             //       ])),
             //   child: Center(
@@ -71,7 +71,7 @@ class _MaidState extends State<Maid> {
                 child: Container(
                     height: 400,
                     decoration: BoxDecoration(
-                        // border: Border.all(color: Color(0xfff20bdff), width: 3),
+                        // border: Border.all(color: Colors.black, width: 3),
                         borderRadius: BorderRadius.circular(5),
                         ),
                     child: CalendarCarousel(
@@ -90,34 +90,27 @@ class _MaidState extends State<Maid> {
             //   height: 60,
             //   decoration: BoxDecoration(
             //     borderRadius: BorderRadius.circular(10),
-            //     border: Border.all(color: Color(0xfff20BDff), width: 3),
-            //     //color: Color(0xfff20BDff),
+            //     border: Border.all(color: Colors.black, width: 3),
+            //     //color: Colors.black,
             //   ),
             //   margin: EdgeInsets.only(top: 20, left: 16, right: 16),
             //   child:
             SizedBox(height: 30),
-            Card(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xfff20bdff), width: 3),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Row(
+                   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
+                      SizedBox(width: 30),
                       Image(
                           image: AssetImage('assets/images/maid_leave.png'),
                           height: 30,
                           width: 30),
+                      SizedBox(width: 20,),
                       Text('Number of leaves: $x',
                           style: TextStyle(
-                              fontSize: 20, color: Color(0xfff20BDff))),
+                              fontSize: 20, color: Colors.black)),
                       IconButton(
                         icon: Icon(Icons.add_box,
-                            color: Color(0xfff20BDff), size: 35),
+                            color: Colors.black, size: 35),
                         onPressed: () {
                           setState(() {
                             x++;
@@ -125,34 +118,22 @@ class _MaidState extends State<Maid> {
                         },
                       )
                     ],
-                  )),
-              elevation: 10,
-            ),
+                  ),
             SizedBox(height: 30),
-            Card(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              elevation: 10,
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xfff20bdff), width: 3),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    SizedBox(width: 30,),
                     Image(
                         image: AssetImage('assets/images/bill.png'),
                         height: 30,
                         width: 30),
+                    SizedBox(width: 20,),
                     Text('Monthly bill: Rs. 2000',
                         style:
-                            TextStyle(fontSize: 20, color: Color(0xfff20BDff))),
+                            TextStyle(fontSize: 20, color: Colors.black)),
                   ],
                 ),
-              ),
-            )
           ],
         ),
       ),

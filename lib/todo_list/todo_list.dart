@@ -56,7 +56,7 @@ class _TodoListState extends State<TodoList> {
     //     new GlobalKey<AnimatedListState>();
     return Expanded(
       child: StreamBuilder(
-          stream: Firestore.instance.collection("todo").snapshots(),
+          stream: Firestore.instance.collection("user/phone/todo").snapshots(),
           builder: (context, snapshots) {
             if (!snapshots.hasData) {
               return Center(

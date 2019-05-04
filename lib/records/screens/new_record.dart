@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fun_app/firebase_service.dart';
-import 'package:fun_app/todo_list/tasks.dart';
+// import 'package:fun_app/todo_list/firebase_service.dart';
 
-class NewTask extends StatefulWidget {
-  // Tasks task;
-
-  // NewTask({this.task});
+class NewRecord extends StatefulWidget {
   @override
-  _NewTaskState createState() => _NewTaskState();
+  _NewRecordState createState() => _NewRecordState();
 }
 
-class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
+class _NewRecordState extends State<NewRecord> with SingleTickerProviderStateMixin {
   double _imageHeight = 256.0;
   double move = 10.0;
 
-  String taskTitle = '', taskTime = '', taskDes = '', taskColor = '';
+  String role = '', name = '', phone = '';
 
   bool isRedSelected = false;
   bool isGreenSelected = false;
@@ -26,8 +22,6 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> animation;
   Animation<Color> colorAnim;
-
-  // FirebaseService firebase; // ! don't use for todo list
 
   // Key titleKey = new UniqueKey();
   // Key timeKey = new UniqueKey();
@@ -89,7 +83,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
               child: Column(
                 children: <Widget>[
                   new Text(
-                    'Add New Task',
+                    'Add New Record',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 40.0,
@@ -103,7 +97,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Title',
+                            'Name',
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
@@ -111,12 +105,11 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         TextField(
-                            onChanged: (value) {
-                            taskTitle = value;
+                          onChanged: (value) {
+                            name = value;
                           },
-                          // controller: _taskTitleController,
                           decoration: InputDecoration(
-                              hintText: 'Title',
+                              hintText: 'Name',
                               hintStyle: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w500,
@@ -133,7 +126,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Time',
+                            'Role',
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
@@ -142,11 +135,10 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                         ),
                         TextField(
                           onChanged: (value) {
-                            taskTime = value;
+                            role = value;
                           },
-                          // controller: _taskTimeController,
                           decoration: InputDecoration(
-                              hintText: 'Time',
+                              hintText: 'Role',
                               hintStyle: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w500,
@@ -163,7 +155,7 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Description',
+                            'Phone Number',
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
@@ -171,12 +163,12 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         TextField(
+                          keyboardType: TextInputType.phone,
                           onChanged: (value) {
-                            taskDes = value;
+                            phone = value;
                           },
-                          // controller: _taskDesController,
                           decoration: InputDecoration(
-                              hintText: 'Description',
+                              hintText: 'Phone',
                               hintStyle: TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w500,
@@ -185,33 +177,23 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 20.0, right: 20.0),
-                      child: Text(
-                        'Color',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      _buildColorOptions(Colors.red, isRedSelected, taskColor),
-                      _buildColorOptions(
-                          Colors.cyan, isCyanSelected, taskColor),
-                      _buildColorOptions(
-                          Colors.yellow, isYellowSelected, taskColor),
-                      _buildColorOptions(
-                          Colors.deepOrange, isOrangeSelected, taskColor),
-                      _buildColorOptions(
-                          Colors.green, isGreenSelected, taskColor)
-                    ],
-                  ),
+                  // _buildFormItem(titleKey,'Title', taskTitle),
+                  // _buildFormItem(timeKey,'Time', taskTime),
+                  // _buildFormItem(desKey,'Description', taskDes),
+                  // Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(
+                  //         top: 10.0, left: 20.0, right: 20.0),
+                  //     child: Text(
+                  //       'Color',
+                  //       style: TextStyle(
+                  //           color: Colors.black,
+                  //           fontSize: 20.0,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //   ),
+                  // ),
                   _buildSubmitButton()
                 ],
               ),
@@ -271,39 +253,39 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
   //   );
   // }
 
-  Widget _buildColorOptions(Color color, bool isSelected, String colorName) {
-    isSelected = false;
-    return Padding(
-      padding: const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            isSelected = !isSelected;
-            colorName = color.toString();
-          });
-        },
-        child: isSelected
-            ? Container(
-                width: 30.0,
-                height: 30.0,
-                child: Stack(
-                  children: <Widget>[Icon(Icons.check, color: Colors.white)],
-                ),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: color.withOpacity(0.9)),
-              )
-            : Container(
-                width: 30.0,
-                height: 30.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 1.5, color: Colors.blue[900]),
-                  color: color,
-                ),
-              ),
-      ),
-    );
-  }
+  // Widget _buildColorOptions(Color color, bool isSelected, String colorName) {
+  //   isSelected = false;
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
+  //     child: InkWell(
+  //       onTap: () {
+  //         setState(() {
+  //           isSelected = !isSelected;
+  //           colorName = color.toString();
+  //         });
+  //       },
+  //       child: isSelected
+  //           ? Container(
+  //               width: 30.0,
+  //               height: 30.0,
+  //               child: Stack(
+  //                 children: <Widget>[Icon(Icons.check, color: Colors.white)],
+  //               ),
+  //               decoration: BoxDecoration(
+  //                   shape: BoxShape.circle, color: color.withOpacity(0.9)),
+  //             )
+  //           : Container(
+  //               width: 30.0,
+  //               height: 30.0,
+  //               decoration: BoxDecoration(
+  //                 shape: BoxShape.circle,
+  //                 border: Border.all(width: 1.5, color: Colors.blue[900]),
+  //                 color: color,
+  //               ),
+  //             ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildSubmitButton() {
     return Padding(
@@ -315,11 +297,12 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
           children: <Widget>[
             GestureDetector(
                 onTap: () {
+                  // _controller.forward();
                   setState(() {
                     _controller.forward();
                     move = _controller.value.abs();
                   });
-                  Navigator.pushNamed(context, 'todo');
+                   Navigator.pushNamed(context, 'records');
                   _uploadDataToFirebase();
                 },
                 child: Transform(
@@ -334,18 +317,20 @@ class _NewTaskState extends State<NewTask> with SingleTickerProviderStateMixin {
       ),
     );
   }
-  // function working properly
-  _uploadDataToFirebase() {
+
+  _uploadDataToFirebase(){
     // db = Firestore.instance;
     DocumentReference databaseRef =
-        Firestore.instance.collection("/user/phone/todo").document(taskTitle);
+        Firestore.instance.collection("/user/phone/records").document(role);
 
     Map<String, dynamic> tasks = {
-      "title": taskTitle,
-      "time": taskTime,
-      "description": taskDes,
-      "color": taskColor
+      "role": role,
+      "name": name,
+      "phone": phone
     };
+    // databaseRef.add(tasks).whenComplete((){
+    //   print('Task added');
+    // });
     databaseRef.setData(tasks).whenComplete(() {
       print('Task created!');
     });
