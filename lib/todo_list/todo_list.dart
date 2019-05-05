@@ -43,7 +43,15 @@ class _TodoListState extends State<TodoList> {
           _buildProfileRow(),
           _buildTimeLine(),
           _buildBottomPart(),
-          Positioned(right: -40, top: 150.0, child: Fab())
+          Positioned(
+              right: -40,
+              top: 150.0,
+              child: Fab(
+                hero: 'Todo',
+                path1: '/newTask',
+                path2: '/completed',
+                path3: '/newTask',
+              ))
         ],
       ),
     );
@@ -74,13 +82,20 @@ class _TodoListState extends State<TodoList> {
                     int blue = ds["color"]["b"];
                     return Dismissible(
                       key: new UniqueKey(),
-                      background: new Container(color: Colors.red,),
-                      onDismissed: (direction){
+                      background: new Container(
+                        color: Colors.red,
+                      ),
+                      onDismissed: (direction) {
                         // ds.data.clear();
                         setState(() {
-                          Firestore.instance.collection('user/phone/todo').document(ds["title"]).delete();
-                        });                       
-                        Scaffold.of(context).showSnackBar(new SnackBar(content: Text('Item removed'),));
+                          Firestore.instance
+                              .collection('user/phone/todo')
+                              .document(ds["title"])
+                              .delete();
+                        });
+                        Scaffold.of(context).showSnackBar(new SnackBar(
+                          content: Text('Item removed'),
+                        ));
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),

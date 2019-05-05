@@ -7,22 +7,19 @@ var pageList = [
       title: 'TODO',
       description: 'Manage your day the right way',
       gradients: gradients[0],
-      screenPath: 'todo'
-      ),
+      screenPath: '/todo'),
   PageViewModel(
       title: 'Shopping',
       imgPath: 'assets/images/shopping.png',
       description: 'Shop your daily needs',
       gradients: gradients[1],
-      screenPath: 'homeshop'
-      ),
+      screenPath: '/homeshop'),
   PageViewModel(
-      title: 'Records',
-      imgPath: 'asssts/images/todo.png',
-      description: 'Keep track of anything and everything',
+      imgPath: 'assets/images/bck.jpg',
+      title: 'Manage',
+      description: 'Keep track of everything',
       gradients: gradients[2],
-      screenPath: 'records'
-      )
+      screenPath: '/records'),
 ];
 
 List<List<Color>> gradients = [

@@ -96,7 +96,7 @@ class _SplashScreensState extends State<SplashScreens> {
                         onTap:(){
                           Navigator.pushNamed(context, pageList[index].screenPath);
                         },
-                        child: Image.asset(pageList[index].imgPath)),
+                        child: Image.asset(pageList[index].imgPath , fit: BoxFit.cover,)),
                       Stack(
                         children: <Widget>[
                           Opacity(

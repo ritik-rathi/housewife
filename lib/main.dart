@@ -23,21 +23,21 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: Records(),
+      home: SplashScreens(),
       // initialRoute: '.',
       routes: {
         '.': (context) => SplashScreens(),
-        'todo':(context)=> TodoList(),
-        'homeshop':(context)=>HomeShop(),
-        'records':(context)=> Records(),
+        '/todo':(context)=> TodoList(),
+        '/homeshop':(context)=>HomeShop(),
+        '/records':(context)=> Records(),
         'home': (context) => FunApp(),
         'fruits': (context) => Fruits(),
         'fruitList': (context) => FruitList(),
         'onlineFruits': (context) => OnlineFruits(),
         'maid': (context) => Maid(),
-        '/newtask':(context)=>NewTask(),
+        '/newTask':(context)=>NewTask(),
         '/completed':(context) => Completed(),
-        '/newRecord': (context) => NewRecord()
+        '/addRecord': (context) => NewRecord()
       },
     );
   }

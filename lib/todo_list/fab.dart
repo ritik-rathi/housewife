@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:fun_app/main.dart';
 // import 'package:fun_app/todo_list/newtask.dart';
 
 class Fab extends StatefulWidget {
   final VoidCallback onClick;
+  String path1;
+  String path2;
+  String path3;
+  String hero;
 
-  Fab({Key key, this.onClick}) : super(key: key);
+  Fab({Key key, this.onClick , this.path1 , this.path2 , this.path3,this.hero}) : super(key: key);
 
   @override
   _FabState createState() => _FabState();
@@ -44,11 +49,12 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
               alignment: Alignment.center,
               children: <Widget>[
                 _buildExpandedBackground(),
-                _hiddenIcons(Icons.add, 0.0 , '/newtask'),
-                _hiddenIcons(Icons.check_box, -math.pi / 3 , '/completed'),
-                _hiddenIcons(Icons.access_time, -2 * math.pi / 3 , '/newtask'),
+                _hiddenIcons(Icons.add, 0.0 , widget.path1),
+                _hiddenIcons(Icons.check_box, -math.pi / 3 , widget.path2),
+                _hiddenIcons(Icons.access_time, -2 * math.pi / 3 , widget.path3),
                 _hiddenIcons(Icons.error_outline, math.pi , '/newtask'),
                 FloatingActionButton(
+                  heroTag: widget.hero,
                   onPressed: _control,
                   backgroundColor: _colorAnimation.value,
                   child: Transform(

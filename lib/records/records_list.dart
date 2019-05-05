@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fun_app/todo_list/fab.dart';
 import 'package:fun_app/todo_list/todo_list.dart';
-import 'record_card.dart';
+// import 'record_card.dart';
+import 'screens/new_record.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Records extends StatefulWidget {
@@ -34,7 +35,10 @@ class _RecordsState extends State<Records> {
               right: -40.0,
               top: 150.0,
               child: Fab(
-                onClick: () {},
+                hero: 'Records',
+                path1: '/addRecord',
+                path2: '/newTask',
+                path3: '/newTask',
               ))
         ],
       ),
@@ -183,7 +187,7 @@ class _RecordsState extends State<Records> {
                                 alignment: Alignment.bottomRight,
                                 child: FloatingActionButton(
                                   onPressed: () {
-                                    //details screen
+                                    //edit screen
                                   },
                                   backgroundColor: index % 2 == 0
                                       ? Colors.red[400]
@@ -201,3 +205,20 @@ class _RecordsState extends State<Records> {
     );
   }
 }
+
+class ImageClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = new Path();
+    path.lineTo(0.0, size.height - 60);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 50.0);
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
