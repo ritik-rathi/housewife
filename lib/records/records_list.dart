@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun_app/todo_list/fab.dart';
 import 'package:fun_app/todo_list/todo_list.dart';
 import 'record_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,16 +31,11 @@ class _RecordsState extends State<Records> {
               )),
           _buildBottomPart(),
           Positioned(
-            right: 10.0,
-            top: 220.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/newRecord');
-              },
-              backgroundColor: Colors.pink,
-              child: Icon(Icons.add_box),
-            ),
-          )
+              right: -40.0,
+              top: 150.0,
+              child: Fab(
+                onClick: () {},
+              ))
         ],
       ),
     );
@@ -116,62 +112,82 @@ class _RecordsState extends State<Records> {
                                     offset: Offset(5.0, 25.0),
                                     blurRadius: 80),
                               ]),
-                          child: Row(
+                          child: Stack(
                             children: <Widget>[
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 8.0, left: 15.0),
-                                      child: Container(
-                                        alignment: Alignment.topLeft,
-                                        width: 90.0,
-                                        height: 90.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            border: Border.all()),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: 30.0,
                               ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Name: ',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: 20.0,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 20.0, top: 5.0),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration:
+                                        BoxDecoration(border: Border.all()),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Name: ',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Text(ds["name"]),
+                                        Text('Phone : ',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold)),
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Text(ds["phone"]),
+                                        Text('Role : ',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold)),
+                                        SizedBox(height: 5.0),
+                                        Text(ds["role"]),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    Text(ds["name"]),
-                                    Text('Phone : ',
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold)),
-                                    SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    Text(ds["phone"]),
-                                    Text('Role : ',
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold)),
-                                    SizedBox(height: 10.0),
-                                    Text(ds["role"]),
-                                  ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, left: 15.0),
+                                child: Container(
+                                  alignment: Alignment.topLeft,
+                                  width: 90.0,
+                                  height: 90.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.teal,
+                                      shape: BoxShape.rectangle,
+                                      border: Border.all()),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: FloatingActionButton(
+                                  onPressed: () {
+                                    //details screen
+                                  },
+                                  backgroundColor: index % 2 == 0
+                                      ? Colors.red[400]
+                                      : Colors.blue[400],
                                 ),
                               )
                             ],
