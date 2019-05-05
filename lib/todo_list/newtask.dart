@@ -19,34 +19,6 @@ class NewTask extends StatelessWidget {
 
     double _imageHeight = 256.0;
 
-    // Widget _buildSubmitButton() {
-    //   return Padding(
-    //     padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
-    //     child: Container(
-    //       width: double.infinity,
-    //       height: 60.0,
-    //       child: Stack(
-    //         children: <Widget>[
-    //           GestureDetector(
-    //               onTap: () {
-    //                 // Navigator.pushNamed(context, 'todo');
-    //                 _uploadDataToFirebase();
-    //               },
-    //               child: Icon(Icons.arrow_forward_ios,
-    //                   color: Colors.white, size: 45.0)),
-    //           Align(
-    //               alignment: Alignment.center,
-    //               child: Text('Submit',
-    //                   style: TextStyle(color: Colors.white, fontSize: 30.0)))
-    //         ],
-    //       ),
-    //       decoration: BoxDecoration(
-    //           color: Colors.lightGreen,
-    //           borderRadius: BorderRadius.circular(15.0)),
-    //     ),
-    //   );
-    // }
-
     Widget _buildAddCard() {
       return SingleChildScrollView(
         child: Padding(
