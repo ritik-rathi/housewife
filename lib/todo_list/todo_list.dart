@@ -60,19 +60,20 @@ class _TodoListState extends State<TodoList> {
   Widget _buildList() {
     // final GlobalKey<AnimatedListState> _listKey =
     //     new GlobalKey<AnimatedListState>();
+    // bool leftToRight = true;
     return Expanded(
       child: StreamBuilder(
           stream: Firestore.instance.collection("user/phone/todo").snapshots(),
           builder: (context, snapshots) {
             if (!snapshots.hasData) {
+              // ?can use flares here to indicate loading
               return Center(
                 child: CircularProgressIndicator(
-                  strokeWidth: 1.0,
+                  strokeWidth: 5.0,
                   backgroundColor: Colors.black,
-                  // valueColor: _animation,
                 ),
               );
-            } else {
+            } else if (snapshots.hasData) {
               return ListView.builder(
                   itemCount: snapshots.data.documents.length,
                   itemBuilder: (context, index) {
@@ -80,68 +81,112 @@ class _TodoListState extends State<TodoList> {
                     int red = ds["color"]["r"];
                     int green = ds["color"]["g"];
                     int blue = ds["color"]["b"];
-                    return Dismissible(
-                      key: new UniqueKey(),
-                      background: new Container(
-                        color: Colors.red,
-                      ),
-                      onDismissed: (direction) {
-                        // ds.data.clear();
-                        setState(() {
-                          Firestore.instance
-                              .collection('user/phone/todo')
-                              .document(ds["title"])
-                              .delete();
-                        });
-                        Scaffold.of(context).showSnackBar(new SnackBar(
-                          content: Text('Item removed'),
-                        ));
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                        child: Row(
-                          children: <Widget>[
-                            new Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
-                              child: Container(
-                                height: 12.0,
-                                width: 12.0,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color:
-                                        Color.fromRGBO(red, green, blue, 1.0)),
-                              ),
-                            ),
-                            new Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  new Text(
-                                    '${ds["title"]}',
-                                    style: TextStyle(
-                                        fontSize: 18.0, color: Colors.black),
+                    print(ds["completed"]);
+                    var ref = Firestore.instance
+                        .collection('user/phone/todo')
+                        .document(ds["title"]);
+                    if (ds["completed"] == false) {
+                      return Dismissible(
+                        key: new UniqueKey(),
+                        background: new Container(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 40.0,
                                   ),
-                                  new Text(
-                                    '${ds["description"]}',
-                                    style: TextStyle(
-                                        fontSize: 12.0, color: Colors.grey),
-                                  )
-                                ],
-                              ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(
+                                    Icons.delete_forever,
+                                    color: Colors.white,
+                                    size: 40.0,
+                                  ),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 16.0),
-                              child: Text('${ds["time"]}',
-                                  style: TextStyle(
-                                      fontSize: 18.0, color: Colors.grey)),
-                            )
-                          ],
+                          ),
+                          color: Color.fromRGBO(red, green, blue, 1.0),
                         ),
-                      ),
-                    );
-                  });
-            }
+                        onDismissed: (direction) {
+                          // ds.data.clear();
+                          if (direction == DismissDirection.endToStart) {
+                            setState(() {
+                              ref.delete();
+                            });
+                          }
+                          if (direction == DismissDirection.startToEnd) {
+                            setState(() {
+                              ref.updateData({"completed": true});
+                            });
+                          }
+                          Scaffold.of(context).showSnackBar(new SnackBar(
+                            content: Text('Item removed'),
+                          ));
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Row(
+                            children: <Widget>[
+                              new Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 32.0 - 6.0),
+                                child: Container(
+                                  height: 12.0,
+                                  width: 12.0,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromRGBO(
+                                          red, green, blue, 1.0)),
+                                ),
+                              ),
+                              new Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new Text(
+                                      '${ds["title"]}',
+                                      style: TextStyle(
+                                          fontSize: 18.0, color: Colors.black),
+                                    ),
+                                    new Text(
+                                      '${ds["description"]}',
+                                      style: TextStyle(
+                                          fontSize: 12.0, color: Colors.grey),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 16.0),
+                                child: Text('${ds["time"]}',
+                                    style: TextStyle(
+                                        fontSize: 18.0, color: Colors.grey)),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  });}
+            // } else {
+            //   return Center(
+            //       child: Text(
+            //     'All tasks Completed',
+            //     style: TextStyle(
+            //         fontSize: 30.0,
+            //         color: Colors.black,
+            //         fontWeight: FontWeight.w400),
+            //   ));
+            // }
           }),
     );
   }

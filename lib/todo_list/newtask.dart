@@ -187,7 +187,7 @@ class NewTask extends StatelessWidget {
                         child: Text('Submit'),
                         onTap: (){
                           print(taskTitle);
-                          Navigator.pushNamed(context, 'todo');
+                          Navigator.pushNamed(context, '/todo');
                           _uploadDataToFirebase();
                         },
                       ),

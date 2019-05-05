@@ -55,75 +55,71 @@ class _CompletedState extends State<Completed> {
                   itemCount: snapshots.data.documents.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data.documents[index];
-                    bool isSelected = false;
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: Row(
-                        children: <Widget>[
-                          new Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 32.0 - 6.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isSelected = !isSelected;
-                                });
-                                // ds.data.putIfAbsent("completed", () => ds.reference.)
-                                // ds.data.update("completed", (selected) {
-                                //   selected = true;
-                                //   print(ds["completed"]);
-                                // },
-                                // ifAbsent: (){
-                                
-                                // });
-                              },
-                              child: isSelected
-                                  ? Container(
-                                      height: 22.0,
-                                      width: 22.0,
-                                      child: Icon(Icons.check,
-                                          color: Colors.green,),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          color: Colors.white,
-                                          border: Border.all()),
-                                    )
-                                  : Container(
-                                      height: 22.0,
-                                      width: 22.0,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          color: Colors.white,
-                                          border: Border.all()),
-                                    ),
-                            ),
-                          ),
-                          new Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                new Text(
-                                  '${ds["title"]}',
-                                  style: TextStyle(
-                                      fontSize: 18.0, color: Colors.black),
+                    int red = ds["color"]["r"];
+                    int green = ds["color"]["g"];
+                    int blue = ds["color"]["b"];
+                    var ref = Firestore.instance
+                        .collection('user/phone/todo')
+                        .document(ds["title"]);
+                    if (ds["completed"]) {
+                      return Dismissible(
+                        key: new UniqueKey(),
+                        background: Container(
+                          color: Colors.red,
+                          child: Icon(Icons.delete_forever),
+                        ),
+                        onDismissed: (direction) {
+                          setState(() {
+                            ref.delete();
+                            Scaffold.of(context).showSnackBar(new SnackBar(
+                              content: Text('Item removed'),
+                            ));
+                          });
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Row(
+                            children: <Widget>[
+                              new Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 32.0 - 6.0),
+                                child: Container(
+                                  height: 12.0,
+                                  width: 12.0,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromRGBO(
+                                          red, green, blue, 1.0)),
                                 ),
-                                new Text(
-                                  '${ds["description"]}',
-                                  style: TextStyle(
-                                      fontSize: 12.0, color: Colors.grey),
-                                )
-                              ],
-                            ),
+                              ),
+                              new Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new Text(
+                                      '${ds["title"]}',
+                                      style: TextStyle(
+                                          fontSize: 18.0, color: Colors.black),
+                                    ),
+                                    new Text(
+                                      '${ds["description"]}',
+                                      style: TextStyle(
+                                          fontSize: 12.0, color: Colors.grey),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 16.0),
+                                child: Text('${ds["time"]}',
+                                    style: TextStyle(
+                                        fontSize: 18.0, color: Colors.grey)),
+                              )
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 16.0),
-                            child: Text('${ds["time"]}',
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.grey)),
-                          )
-                        ],
-                      ),
-                    );
+                        ),
+                      );
+                    }
                   });
             }
           }),
@@ -147,11 +143,11 @@ class _CompletedState extends State<Completed> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'Completed?',
+            'Completed Tasks',
             style: new TextStyle(fontSize: 34.0),
           ),
           Text(
-            'Automatically deletes completed tasks',
+            'Delete tasks from database by swiping horizontally',
             style: TextStyle(color: Colors.grey, fontSize: 12.0),
           )
         ],
