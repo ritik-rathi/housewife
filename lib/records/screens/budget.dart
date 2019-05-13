@@ -1,9 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
 import 'addExpenses.dart';
 
+final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
+
+List<CircularStackEntry> data = <CircularStackEntry>[
+  new CircularStackEntry(
+    <CircularSegmentEntry>[
+      new CircularSegmentEntry(500.0, Colors.red, rankKey: 'Q1'),
+      new CircularSegmentEntry(1000.0, Colors.green, rankKey: 'Q2'),
+      new CircularSegmentEntry(2000.0, Colors.blue, rankKey: 'Q3'),
+      new CircularSegmentEntry(1000.0, Colors.yellow, rankKey: 'Q4'),
+    ],
+    rankKey: 'Quarterly Profits',
+  ),
+];
 class Budget extends StatefulWidget {
   @override
   _BudgetState createState() => _BudgetState();
@@ -12,7 +26,7 @@ class Budget extends StatefulWidget {
 class _BudgetState extends State<Budget> with TickerProviderStateMixin {
   AnimationController _controller;
   TabController tabController;
-  static const header_height = 400.0;
+  static const header_height = 400.0;  
 
   Animation<RelativeRect> getAniamtionPanel(BoxConstraints constraints) {
     final height = constraints.biggest.height;
@@ -135,7 +149,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                         ),
                         Container(
                           color: Colors.blue,
-                          
+
                         )
                       ]),
                     )
@@ -150,6 +164,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
   }
 
   Widget _buildListOfTransactions(BuildContext context) {
+    void chooseIconBasedOnColor(){}
     return StreamBuilder(
         stream: Firestore.instance.collection("user/phone/budget").snapshots(),
         builder: (context, snapshot) {
@@ -227,7 +242,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                   );
                 });
           }
-        });
+        });    
   }
 
   @override
@@ -267,13 +282,18 @@ class FirstPanel extends StatelessWidget {
                 fontSize: 30.0,
                 fontWeight: FontWeight.w600),
           ),
-          // _pieChart()
-          Container(
-            width: 120.0,
-            height: 120.0,
-            decoration:
-                BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+          AnimatedCircularChart(
+            key: _chartKey,
+            size: Size(120.0 , 120.0),
+            initialChartData: data,
+            chartType: CircularChartType.Radial,
           )
+          // Container(
+          //   width: 120.0,
+          //   height: 120.0,
+          //   decoration:
+          //       BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+          // )
         ],
       ),
     );
