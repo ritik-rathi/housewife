@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun_app/records/screens/budget.dart';
 import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'package:fun_app/todo_list/completed.dart';
 import 'package:fun_app/todo_list/newtask.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: TodoList(),
+      home: Budget(),
       // initialRoute: '.',
       routes: {
         '.': (context) => SplashScreens(),
