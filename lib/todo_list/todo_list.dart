@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fun_app/todo_list/fab.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:fun_app/todo_list/firebase_service.dart';
 
 int dateDay = new DateTime.now().day;
@@ -15,11 +18,50 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   double _imageHeight = 256.0;
-  // List<Tasks> items;
-  // FirebaseService firebase = new FirebaseService();
-  // StreamSubscription<QuerySnapshot> todoTasks;
 
-  // Animation<Color> _animation;
+  FlutterLocalNotificationsPlugin notificationsPlugin;
+
+  @override
+  void initState() {
+    notificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var initSettingsAndroid =
+        new AndroidInitializationSettings('mipmap/ic_launcher');
+    var initSettingsIOS = new IOSInitializationSettings();
+    var initSetting =
+        new InitializationSettings(initSettingsAndroid, initSettingsIOS);
+    notificationsPlugin.initialize(initSetting , onSelectNotification: onSelectNotification);
+
+    Timer(Duration(seconds: 5) , () => showNotificationWithSound);
+    super.initState();
+  }
+
+  Future onSelectNotification(String payload) async{
+    showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+        title: new Text("Time to complete tasks"),
+        content: new Text('Your task $payload is not complete yet!')
+      )
+    );
+  }  
+
+  Future showNotificationWithSound() async {
+  var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+      importance: Importance.Max,
+      priority: Priority.High);
+  var iOSPlatformChannelSpecifics =
+      new IOSNotificationDetails();
+  var platformChannelSpecifics = new NotificationDetails(
+      androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+  await notificationsPlugin.show(
+    0,
+    'Complete Task',
+    'Time to terminate the tasks!',
+    platformChannelSpecifics,
+    payload: 'Task',
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -176,17 +218,8 @@ class _TodoListState extends State<TodoList> {
                         ),
                       );
                     }
-                  });}
-            // } else {
-            //   return Center(
-            //       child: Text(
-            //     'All tasks Completed',
-            //     style: TextStyle(
-            //         fontSize: 30.0,
-            //         color: Colors.black,
-            //         fontWeight: FontWeight.w400),
-            //   ));
-            // }
+                  });
+            }
           }),
     );
   }

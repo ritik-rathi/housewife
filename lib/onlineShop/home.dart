@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
-import 'package:fun_app/bottom_navbar/navbar.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeShop extends StatefulWidget {
   @override

@@ -41,30 +41,3 @@ class Tasks {
     this.completed = map["completed"];
   }
 }
-
-// List<Tasks> tasks = [
-//   new Tasks(
-//       title: "Make new icons",
-//       description: "App",
-//       time: "3pm",
-//       color: Colors.cyan,
-//       completed: true),
-//   new Tasks(
-//       title: "Design explorations",
-//       description: "Company Website",
-//       time: "2pm",
-//       color: Colors.pink,
-//       completed: false),
-//   new Tasks(
-//       title: "Lunch",
-//       description: "House",
-//       time: "12pm",
-//       color: Colors.cyan,
-//       completed: true),
-//   new Tasks(
-//       title: "Team Meeting",
-//       description: "Hangouts",
-//       time: "10am",
-//       color: Colors.cyan,
-//       completed: true),
-// ];
