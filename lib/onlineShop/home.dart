@@ -190,7 +190,7 @@ class _HomeShopState extends State<HomeShop> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    int price = document['price'];
+    var price = document['price'].toString();
     String per = document['per'];
     return Card(
       shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(5)),

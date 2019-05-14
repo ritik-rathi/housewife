@@ -14,11 +14,11 @@ class PageIndicator extends StatelessWidget {
         child: Container(
           height: 4,
           decoration: BoxDecoration(
-              color: isActive ? Colors.white : Colors.black,
+              color: isActive ? Colors.white : Color(0xff4E5167),
               boxShadow: [
                 BoxShadow(
                     offset: Offset(0.0, 2.0),
-                    color: Colors.black,
+                    color: Colors.black12,
                     blurRadius: 2.0)
               ]),
         ),

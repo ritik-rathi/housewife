@@ -5,6 +5,7 @@ import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'package:fun_app/todo_list/completed.dart';
 import 'package:fun_app/todo_list/newtask.dart';
 import 'package:fun_app/todo_list/todo_list.dart';
+import 'package:fun_app/tutorial/tutorial.dart';
 import 'help_screens/fruits.dart';
 import 'login_new.dart';
 import 'onlineShop/home.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: HomeShop(),
+      home: Budget(),
       // initialRoute: '.',
       routes: {
         '.': (context) => SplashScreens(),

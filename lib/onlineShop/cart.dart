@@ -167,39 +167,6 @@ class _CartState extends State<Cart> {
               ],
             ),
             SizedBox(width: 20),
-            // Column(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: <Widget>[
-            //     Text('Qty: $count'),
-            //     IconButton(
-            //       onPressed: () {
-            //         setState(() {
-            //           Firestore.instance
-            //               .collection('user/phone/cart')
-            //               .document(name)
-            //               .updateData({'quantity': count + 1});
-            //         });
-            //       },
-            //       icon: Icon(Icons.add),
-            //       color: Color(0xff2A33C3),
-            //     ),
-            //     IconButton(
-            //       onPressed: () {
-            //         if (count > 1) {
-            //           setState(() {
-            //             Firestore.instance
-            //                 .collection('user/phone/cart')
-            //                 .document(name)
-            //                 .updateData({'quantity': count - 1});
-            //           });
-            //         }
-            //       },
-            //       icon: Icon(Icons.remove),
-            //       color: Color(0xff2A33C3),
-            //     )
-            //   ],
-            // ),
             Expanded(
               child: IconButton(
                 onPressed: () {

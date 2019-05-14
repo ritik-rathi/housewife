@@ -181,7 +181,7 @@ class AddExpenses extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: RaisedButton(
-                          color: Color(0xff599ACB),
+                          color: Color(0xFF50CDFF),
                           child: Text('Submit',
                               style: TextStyle(
                                   color: Colors.white,

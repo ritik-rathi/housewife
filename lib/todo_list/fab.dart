@@ -24,7 +24,7 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
   void initState() {
     _controller = new AnimationController(
         vsync: this, duration: Duration(milliseconds: 300));
-    _colorAnimation = new ColorTween(begin: Colors.pink, end: Colors.pink[800])
+    _colorAnimation = new ColorTween(begin: Color(0xFF50CDFF), end: Color(0xFF50CDFF).withOpacity(0.8))
         .animate(_controller);
     super.initState();
   }
@@ -121,7 +121,7 @@ class _FabState extends State<Fab> with SingleTickerProviderStateMixin {
     return new Container(
       height: size,
       width: size,
-      decoration: new BoxDecoration(shape: BoxShape.circle, color: Colors.pink),
+      decoration: new BoxDecoration(shape: BoxShape.circle, color: Color(0xFF50CDFF)),
     );
   }
 }

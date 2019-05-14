@@ -123,11 +123,10 @@ class _TodoListState extends State<TodoList> {
                     int red = ds["color"]["r"];
                     int green = ds["color"]["g"];
                     int blue = ds["color"]["b"];
-                    print(ds["completed"]);
                     var ref = Firestore.instance
                         .collection('user/phone/todo')
                         .document(ds["title"]);
-                    if (ds["completed"] == false) {
+                    if (!ds["completed"]) {
                       return Dismissible(
                         key: new UniqueKey(),
                         background: new Container(

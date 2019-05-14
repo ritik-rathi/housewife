@@ -32,17 +32,17 @@ class _SplashScreensState extends State<SplashScreens> {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.blue[400], Colors.blue[800], Colors.blue[900]],
-              tileMode: TileMode.clamp,
-              stops: [0.0, 1.0, 2.0])),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xff9388FF), Color(0xFF50CDFF), Color(0xff6B77E0)],
+              tileMode: TileMode.mirror,
+              stops: [0.2, 0.4, 0.8])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-           _initScreen(context),
+            _initScreen(context),
             Positioned(
               left: MediaQuery.of(context).size.width / 4 + 20,
               bottom: 55.0,
@@ -93,10 +93,14 @@ class _SplashScreensState extends State<SplashScreens> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       GestureDetector(
-                        onTap:(){
-                          Navigator.pushNamed(context, pageList[index].screenPath);
-                        },
-                        child: Image.asset(pageList[index].imgPath , fit: BoxFit.cover,)),
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, pageList[index].screenPath);
+                          },
+                          child: Image.asset(
+                            pageList[index].imgPath,
+                            fit: BoxFit.cover,
+                          )),
                       Stack(
                         children: <Widget>[
                           Opacity(
@@ -124,7 +128,7 @@ class _SplashScreensState extends State<SplashScreens> {
                         child: Text(
                           pageList[index].description,
                           style: TextStyle(
-                              fontSize: 20.0, color: Color(0xFF9B9B9B)),
+                              fontSize: 20.0, color: Color(0xff4E5167)),
                         ),
                       ),
                     ],

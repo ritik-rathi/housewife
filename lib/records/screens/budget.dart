@@ -104,10 +104,10 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                           decoration: BoxDecoration(color: Colors.white),
                           child: TabBar(
                             controller: tabController,
-                            indicatorColor: Color(0xff101285),
+                            indicatorColor: Color(0xff9388FF),
                             indicatorWeight: 3.0,
-                            unselectedLabelColor: Color(0xffB6C4D3),
-                            labelColor: Color(0xff101285),
+                            unselectedLabelColor: Color(0xff4E5167),
+                            labelColor: Color(0xff6B77E0),
                             labelStyle: TextStyle(
                                 fontSize: 20.0, fontWeight: FontWeight.w500),
                             tabs: <Widget>[
@@ -134,7 +134,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                   borderRadius: BorderRadius.circular(15.0),
                                   border: Border.all(color: Colors.white)),
                               child: RaisedButton(
-                                color: Color(0xff599ACB),
+                                color: Color(0xFF50CDFF),
                                 child: Text('Add Expenses',
                                     style: TextStyle(
                                         color: Colors.white,
