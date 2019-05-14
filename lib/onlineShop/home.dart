@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
-import 'package:gradient_widgets/gradient_widgets.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeShop extends StatefulWidget {
@@ -180,9 +180,9 @@ class _HomeShopState extends State<HomeShop> {
       body: PageView(
         controller: _controller,
         children: _generatorWidget({
-          "Fruits": Colors.pink,
-          "Vegetables": Colors.green[400],
-          "Grocery": Colors.yellow[300]
+          "fruits": Colors.pink,
+          "vegetables": Colors.green[400],
+          "grocery": Colors.yellow[300]
         }),
       ),
       // bottomNavigationBar: NavigationBar(
@@ -324,7 +324,7 @@ class _HomeShopState extends State<HomeShop> {
           ),
           Container(
             height: 250,
-            child: ecommCard(),
+            child: ecommCard(title),
           ),
           SizedBox(height: 10),
           Container(
@@ -369,52 +369,67 @@ class _HomeShopState extends State<HomeShop> {
     return list;
   }
 
-  Widget ecommCard() {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return Dismissible(
-          direction: prefix0.DismissDirection.up,
-          key: new UniqueKey(),
-          child: Container(
-            margin: EdgeInsets.only(left: 5, right: 1),
-            width: 190,
-            height: 250,
-            child: Card(
-              shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              elevation: 3,
-              child: Column(
-                children: <Widget>[
-                  prefix0.Container(
-                    height: 150,
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Image.asset(
-                      'assets/images/orange.jpg',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  SizedBox(height: 35),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        'Orange',
-                        style: TextStyle(fontSize: 17),
-                      ),
-                      Text(
-                        'Rs. 70/kg',
-                        style: TextStyle(fontSize: 17),
-                      )
-                    ],
-                  )
-                ],
-              ),
+  Widget ecommCard(String collection) {
+    return prefix0.StreamBuilder(
+        stream: Firestore.instance.collection(collection).snapshots(),
+        builder: (context, snapshot) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index) {
+              if(!snapshot.hasData) return const CircularProgressIndicator();
+              return Dismissible(
+                onDismissed: (direction) {
+                  Firestore.instance.collection('cart').add({
+                    snapshot.data.documents[index]['name']: {
+                      snapshot.data.documents[index]['price'],
+                      snapshot.data.documents[index]['image']
+                    }
+                  });
+                },
+                direction: prefix0.DismissDirection.up,
+                key: new UniqueKey(),
+                child: Container(
+                    margin: EdgeInsets.only(left: 5, right: 1),
+                    width: 190,
+                    height: 250,
+                    child: buildItem(context, snapshot.data.documents[index])),
+              );
+            },
+          );
+        });
+  }
+
+  Widget buildItem(BuildContext context, DocumentSnapshot document) {
+    return Card(
+      shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      elevation: 3,
+      child: Column(
+        children: <Widget>[
+          prefix0.Container(
+            height: 150,
+            padding: const EdgeInsets.only(top: 20),
+            child: Image.network(
+              document['image'],
+              fit: BoxFit.contain,
             ),
           ),
-        );
-      },
+          SizedBox(height: 35),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(
+                document['name'],
+                style: TextStyle(fontSize: 17),
+              ),
+              Text(
+                document['price'],
+                style: TextStyle(fontSize: 17),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
