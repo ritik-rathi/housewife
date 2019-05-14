@@ -5,7 +5,8 @@ import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
 import 'addExpenses.dart';
 
-final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
+final GlobalKey<AnimatedCircularChartState> _chartKey =
+    new GlobalKey<AnimatedCircularChartState>();
 
 List<CircularStackEntry> data = <CircularStackEntry>[
   new CircularStackEntry(
@@ -18,6 +19,7 @@ List<CircularStackEntry> data = <CircularStackEntry>[
     rankKey: 'Quarterly Profits',
   ),
 ];
+
 class Budget extends StatefulWidget {
   @override
   _BudgetState createState() => _BudgetState();
@@ -26,7 +28,7 @@ class Budget extends StatefulWidget {
 class _BudgetState extends State<Budget> with TickerProviderStateMixin {
   AnimationController _controller;
   TabController tabController;
-  static const header_height = 400.0;  
+  static const header_height = 400.0;
 
   Animation<RelativeRect> getAniamtionPanel(BoxConstraints constraints) {
     final height = constraints.biggest.height;
@@ -149,7 +151,6 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                         ),
                         Container(
                           color: Colors.blue,
-
                         )
                       ]),
                     )
@@ -164,7 +165,6 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
   }
 
   Widget _buildListOfTransactions(BuildContext context) {
-    void chooseIconBasedOnColor(){}
     return StreamBuilder(
         stream: Firestore.instance.collection("user/phone/budget").snapshots(),
         builder: (context, snapshot) {
@@ -180,6 +180,26 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                   int red = ds["color"]["r"];
                   int green = ds["color"]["g"];
                   int blue = ds["color"]["b"];
+                  IconData icon;
+                  IconData chooseIconBasedOnColor() {
+                    switch(red){
+                      case(240):
+                      return icon = Icons.flash_on;
+                      break;
+                      case(12):
+                      return icon = Icons.shopping_basket;
+                      break;
+                      case(46):
+                      return icon=Icons.attach_money;
+                      break;
+                      case(246):
+                      return icon = Icons.payment;
+                      break;
+                      default:
+                      return icon = Icons.exposure_zero;
+                      break;
+                    }
+                  }
                   return Container(
                     height: 100.0,
                     width: double.infinity,
@@ -199,7 +219,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                                     shape: BoxShape.circle,
                                     color: Color.fromRGBO(red, green, blue, 1)),
                                 child: Icon(
-                                  Icons.ac_unit,
+                                  chooseIconBasedOnColor(),
                                   color: Colors.white,
                                 )),
                             SizedBox(
@@ -242,7 +262,7 @@ class _BudgetState extends State<Budget> with TickerProviderStateMixin {
                   );
                 });
           }
-        });    
+        });
   }
 
   @override
@@ -284,7 +304,7 @@ class FirstPanel extends StatelessWidget {
           ),
           AnimatedCircularChart(
             key: _chartKey,
-            size: Size(120.0 , 120.0),
+            size: Size(120.0, 120.0),
             initialChartData: data,
             chartType: CircularChartType.Radial,
           )
