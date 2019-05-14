@@ -378,6 +378,12 @@ class _HomeShopState extends State<HomeShop> {
     return prefix0.StreamBuilder(
         stream: Firestore.instance.collection(collection).snapshots(),
         builder: (context, snapshot) {
+          if(!snapshot.hasData){
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          else{
           return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: snapshot.data.documents.length,
@@ -407,6 +413,7 @@ class _HomeShopState extends State<HomeShop> {
               );
             },
           );
+          }
         });
   }
 
