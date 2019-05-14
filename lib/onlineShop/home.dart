@@ -248,6 +248,11 @@ class _HomeShopState extends State<HomeShop> {
         //   title: Text(title),
         //   backgroundColor: color,
         // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.pushNamed(context, '/cart'),
+          backgroundColor: color,
+          child: Icon(Icons.add_shopping_cart),
+        ),
         body: ListView(children: <Widget>[
           Container(
             height: 160.0,
@@ -380,11 +385,12 @@ class _HomeShopState extends State<HomeShop> {
               if(!snapshot.hasData) return const CircularProgressIndicator();
               return Dismissible(
                 onDismissed: (direction) {
-                  Firestore.instance.collection('cart').add({
-                    snapshot.data.documents[index]['name']: {
-                      snapshot.data.documents[index]['price'],
-                      snapshot.data.documents[index]['image']
-                    }
+                  Firestore.instance.collection('cart').document(snapshot.data.documents[index]['name']).setData({
+                    "name": snapshot.data.documents[index]['name'],
+                    'price': snapshot.data.documents[index]['price'],
+                    'image': snapshot.data.documents[index]['image']
+                  }).catchError((e){
+                      print(e);
                   });
                 },
                 direction: prefix0.DismissDirection.up,
