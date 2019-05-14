@@ -7,13 +7,19 @@ class Cart extends StatefulWidget {
   _CartState createState() => _CartState();
 }
 
+String rs = '₹';
+
 class _CartState extends State<Cart> {
+  // int t = 0;
+  @override
+  void initState() {
+    this.bill();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Cart'),
-      ),
+      appBar: AppBar(title: Text('Cart'), backgroundColor: Color(0xff2A33C3)),
       body: Column(
         children: <Widget>[
           Flexible(
@@ -22,41 +28,40 @@ class _CartState extends State<Cart> {
                     .collection('user/phone/cart')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  // if ((snapshot.data.documents[0]['name'] == null) ||
-                  //     (snapshot.data.documents[0]['price'] == null) ||
-                  //     (snapshot.data.documents[0]['image']) == null ||
-                  //         (snapshot.data.documents.length < 2)) {
-                  //   return Center(
-                  //     child: Text('Your cart is empty'),
-                  //   );
-                  // }
-if (snapshot.data.documents.length >= 2)
-                   { 
-                  return ListView.builder(
-                    itemCount: snapshot.data.documents.length-1,
-                    itemBuilder: (context, index) {
-                      if (!snapshot.hasData)
-                        return Center(
-                          child: Text('Your cart is empty'),
-                        );
-                        else{
-                      return buildItem(context, snapshot.data.documents[index+1]);}
-                    },
-                  );
-                }
-                else{
-                   return Center(
+                  if (snapshot.data.documents.length >= 2) {
+                    return ListView.builder(
+                      itemCount: snapshot.data.documents.length - 1,
+                      itemBuilder: (context, index) {
+                        if (!snapshot.hasData)
+                          return Center(
+                            child: Text('Your cart is empty'),
+                          );
+                        else {
+                          return buildItem(
+                              context, snapshot.data.documents[index + 1]);
+                        }
+                      },
+                    );
+                  } else {
+                    return Center(
                       child: Text('Your cart is empty'),
                     );
-
-                }
+                  }
                 }),
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
-            child: FloatingActionButton.extended(
-              onPressed: () {},
-              label: Text('ORDER'),
+            child: Row(
+              children: <Widget>[
+                Text('Total price:'),
+                bill(),
+                Spacer(),
+                FloatingActionButton.extended(
+                  onPressed: () {},
+                  label: Text('ORDER'),
+                  backgroundColor: Color(0xff2A33C3),
+                ),
+              ],
             ),
           )
         ],
@@ -64,80 +69,155 @@ if (snapshot.data.documents.length >= 2)
     );
   }
 
+  Widget bill() {
+    int t = 0;
+    int m = 0;
+    print(t);
+    int a = 0, b = 0;
+    return StreamBuilder(
+      stream: Firestore.instance.collection('user/phone/cart').snapshots(),
+      builder: (context, snapshot) {
+        for (int i = 1; i < snapshot.data.documents.length; i++) {
+          a = snapshot.data.documents[i]['price'];
+          b = snapshot.data.documents[i]['quantity'];
+          t = t + (a * b);
+        }
+        m = t;
+        t = 0;
+        return Text('$m');
+      },
+    );
+  }
+
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     String name = document['name'];
     int count = document['quantity'];
+    var price = document['price'];
+    String per = document['per'];
     return Card(
+      elevation: 5,
       margin: EdgeInsets.all(8),
-      child: Row(
-        children: <Widget>[
-          Container(
-            child: Image.network(
-              document['image'],
-              fit: BoxFit.contain,
+      child: Container(
+        margin: EdgeInsets.all(8),
+        height: 150,
+        child: Row(
+          children: <Widget>[
+            Container(
+              child: Image.network(
+                document['image'],
+                fit: BoxFit.contain,
+              ),
+              height: 120,
+              width: 120,
             ),
-            height: 120,
-            width: 120,
-          ),
-          SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                document['name'],
-                style: TextStyle(fontSize: 20),
-                overflow: TextOverflow.clip,
-              ),
-              Text(document['price'], style: TextStyle(fontSize: 20), overflow: TextOverflow.clip,)
-            ],
-          ),
-          SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Qty: $count'),
-              IconButton(
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '$rs$price$per',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.clip,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  document['name'],
+                  style: TextStyle(fontSize: 17),
+                  overflow: TextOverflow.clip,
+                ),
+                SizedBox(height: 30),
+                Row(
+                  children: <Widget>[
+                    SizedBox(width: 20),
+                    IconButton(
+                      onPressed: () {
+                        if (count > 1) {
+                          setState(() {
+                            Firestore.instance
+                                .collection('user/phone/cart')
+                                .document(name)
+                                .updateData({'quantity': count - 1});
+                          });
+                        }
+                      },
+                      icon: Icon(Icons.remove_circle_outline),
+                      iconSize: 30,
+                      color: Color(0xff2A33C3),
+                    ),
+                    Text(
+                      '$count',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          Firestore.instance
+                              .collection('user/phone/cart')
+                              .document(name)
+                              .updateData({'quantity': count + 1});
+                        });
+                      },
+                      icon: Icon(Icons.add_circle_outline),
+                      color: Color(0xff2A33C3),
+                      iconSize: 30,
+                    ),
+                  ],
+                )
+              ],
+            ),
+            SizedBox(width: 20),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: <Widget>[
+            //     Text('Qty: $count'),
+            //     IconButton(
+            //       onPressed: () {
+            //         setState(() {
+            //           Firestore.instance
+            //               .collection('user/phone/cart')
+            //               .document(name)
+            //               .updateData({'quantity': count + 1});
+            //         });
+            //       },
+            //       icon: Icon(Icons.add),
+            //       color: Color(0xff2A33C3),
+            //     ),
+            //     IconButton(
+            //       onPressed: () {
+            //         if (count > 1) {
+            //           setState(() {
+            //             Firestore.instance
+            //                 .collection('user/phone/cart')
+            //                 .document(name)
+            //                 .updateData({'quantity': count - 1});
+            //           });
+            //         }
+            //       },
+            //       icon: Icon(Icons.remove),
+            //       color: Color(0xff2A33C3),
+            //     )
+            //   ],
+            // ),
+            Expanded(
+              child: IconButton(
                 onPressed: () {
-                  setState(() {
-                    Firestore.instance
-                        .collection('user/phone/cart')
-                        .document(name)
-                        .updateData({'quantity': count + 1});
-                  });
+                  Firestore.instance
+                      .collection('user/phone/cart')
+                      .document(name)
+                      .delete();
+                  Scaffold.of(context).showSnackBar(new SnackBar(
+                    content: Text('$name removed'),
+                  ));
                 },
-                icon: Icon(Icons.add),
+                icon: Icon(Icons.delete),
+                color: Color(0xff2A33C3),
+                iconSize: 40,
               ),
-              IconButton(
-                onPressed: () {
-                  if (count > 1) {
-                    setState(() {
-                      Firestore.instance
-                          .collection('user/phone/cart')
-                          .document(name)
-                          .updateData({'quantity': count - 1});
-                    });
-                  }
-                },
-                icon: Icon(Icons.minimize),
-              )
-            ],
-          ),
-          IconButton(
-            onPressed: () {
-              Firestore.instance
-                  .collection('user/phone/cart')
-                  .document(name)
-                  .delete();
-              Scaffold.of(context).showSnackBar(new SnackBar(
-                content: Text('$name removed'),
-              ));
-            },
-            icon: Icon(Icons.delete),
-            iconSize: 40,
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
