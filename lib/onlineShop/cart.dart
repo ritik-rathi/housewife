@@ -22,13 +22,34 @@ class _CartState extends State<Cart> {
                     .collection('user/phone/cart')
                     .snapshots(),
                 builder: (context, snapshot) {
+                  // if ((snapshot.data.documents[0]['name'] == null) ||
+                  //     (snapshot.data.documents[0]['price'] == null) ||
+                  //     (snapshot.data.documents[0]['image']) == null ||
+                  //         (snapshot.data.documents.length < 2)) {
+                  //   return Center(
+                  //     child: Text('Your cart is empty'),
+                  //   );
+                  // }
+if (snapshot.data.documents.length >= 2)
+                   { 
                   return ListView.builder(
-                    itemCount: snapshot.data.documents.length,
+                    itemCount: snapshot.data.documents.length-1,
                     itemBuilder: (context, index) {
-                      if (!snapshot.hasData) return const Text('Cart is empty');
-                      return buildItem(context, snapshot.data.documents[index]);
+                      if (!snapshot.hasData)
+                        return Center(
+                          child: Text('Your cart is empty'),
+                        );
+                        else{
+                      return buildItem(context, snapshot.data.documents[index+1]);}
                     },
                   );
+                }
+                else{
+                   return Center(
+                      child: Text('Your cart is empty'),
+                    );
+
+                }
                 }),
           ),
           Padding(
@@ -55,8 +76,8 @@ class _CartState extends State<Cart> {
               document['image'],
               fit: BoxFit.contain,
             ),
-            height: 150,
-            width: 150,
+            height: 120,
+            width: 120,
           ),
           SizedBox(width: 10),
           Column(
@@ -66,8 +87,9 @@ class _CartState extends State<Cart> {
               Text(
                 document['name'],
                 style: TextStyle(fontSize: 20),
+                overflow: TextOverflow.clip,
               ),
-              Text(document['price'], style: TextStyle(fontSize: 20))
+              Text(document['price'], style: TextStyle(fontSize: 20), overflow: TextOverflow.clip,)
             ],
           ),
           SizedBox(width: 20),
@@ -79,9 +101,10 @@ class _CartState extends State<Cart> {
               IconButton(
                 onPressed: () {
                   setState(() {
-                    Firestore.instance.collection('user/phone/cart').document(name).updateData({
-                      'quantity': count+1
-                    }); 
+                    Firestore.instance
+                        .collection('user/phone/cart')
+                        .document(name)
+                        .updateData({'quantity': count + 1});
                   });
                 },
                 icon: Icon(Icons.add),
@@ -90,9 +113,10 @@ class _CartState extends State<Cart> {
                 onPressed: () {
                   if (count > 1) {
                     setState(() {
-                      Firestore.instance.collection('user/phone/cart').document(name).updateData({
-                      'quantity': count-1
-                    }); 
+                      Firestore.instance
+                          .collection('user/phone/cart')
+                          .document(name)
+                          .updateData({'quantity': count - 1});
                     });
                   }
                 },

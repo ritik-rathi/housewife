@@ -180,9 +180,9 @@ class _HomeShopState extends State<HomeShop> {
       body: PageView(
         controller: _controller,
         children: _generatorWidget({
-          "fruits": Colors.pink,
-          "vegetables": Colors.green[400],
-          "grocery": Colors.yellow[300]
+          "fruits": Color(0xff159CFF),
+          "vegetables": Color(0xff8660FF),
+          "grocery": Color(0xff4A3FFF)
         }),
       ),
       // bottomNavigationBar: NavigationBar(
