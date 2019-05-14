@@ -2,17 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 
-
-
 class Cart extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
 }
 
-int count = 1;
-
 class _CartState extends State<Cart> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +18,9 @@ class _CartState extends State<Cart> {
         children: <Widget>[
           Flexible(
             child: StreamBuilder(
-                stream: Firestore.instance.collection('cart').snapshots(),
+                stream: Firestore.instance
+                    .collection('user/phone/cart')
+                    .snapshots(),
                 builder: (context, snapshot) {
                   return ListView.builder(
                     itemCount: snapshot.data.documents.length,
@@ -47,6 +44,8 @@ class _CartState extends State<Cart> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
+    String name = document['name'];
+    int count = document['quantity'];
     return Card(
       margin: EdgeInsets.all(8),
       child: Row(
@@ -61,6 +60,8 @@ class _CartState extends State<Cart> {
           ),
           SizedBox(width: 10),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
                 document['name'],
@@ -71,27 +72,46 @@ class _CartState extends State<Cart> {
           ),
           SizedBox(width: 20),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Qty: $count'),
               IconButton(
                 onPressed: () {
                   setState(() {
-                    count++;
+                    Firestore.instance.collection('user/phone/cart').document(name).updateData({
+                      'quantity': count+1
+                    }); 
                   });
                 },
                 icon: Icon(Icons.add),
               ),
               IconButton(
-                onPressed: (){
-                  if(count > 1){
+                onPressed: () {
+                  if (count > 1) {
                     setState(() {
-                     count --; 
+                      Firestore.instance.collection('user/phone/cart').document(name).updateData({
+                      'quantity': count-1
+                    }); 
                     });
                   }
                 },
                 icon: Icon(Icons.minimize),
               )
             ],
+          ),
+          IconButton(
+            onPressed: () {
+              Firestore.instance
+                  .collection('user/phone/cart')
+                  .document(name)
+                  .delete();
+              Scaffold.of(context).showSnackBar(new SnackBar(
+                content: Text('$name removed'),
+              ));
+            },
+            icon: Icon(Icons.delete),
+            iconSize: 40,
           )
         ],
       ),

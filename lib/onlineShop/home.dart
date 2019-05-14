@@ -382,15 +382,19 @@ class _HomeShopState extends State<HomeShop> {
             scrollDirection: Axis.horizontal,
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
-              if(!snapshot.hasData) return const CircularProgressIndicator();
+              if (!snapshot.hasData) return const CircularProgressIndicator();
               return Dismissible(
                 onDismissed: (direction) {
-                  Firestore.instance.collection('cart').document(snapshot.data.documents[index]['name']).setData({
+                  Firestore.instance
+                      .collection('user/phone/cart')
+                      .document(snapshot.data.documents[index]['name'])
+                      .setData({
                     "name": snapshot.data.documents[index]['name'],
                     'price': snapshot.data.documents[index]['price'],
-                    'image': snapshot.data.documents[index]['image']
-                  }).catchError((e){
-                      print(e);
+                    'image': snapshot.data.documents[index]['image'],
+                    'quantity' : 1
+                  }).catchError((e) {
+                    print(e);
                   });
                 },
                 direction: prefix0.DismissDirection.up,
