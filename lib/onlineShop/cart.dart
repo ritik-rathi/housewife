@@ -11,6 +11,7 @@ String rs = '₹';
 
 class _CartState extends State<Cart> {
   // int t = 0;
+  
   @override
   void initState() {
     this.bill();
@@ -19,7 +20,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Cart'), backgroundColor: Color(0xff2A33C3)),
+      appBar: AppBar(title: Text('Cart'), backgroundColor: Color(0xff2A33C3), centerTitle: true,),
       body: Column(
         children: <Widget>[
           Flexible(
@@ -50,10 +51,10 @@ class _CartState extends State<Cart> {
                 }),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+            padding: EdgeInsets.all(10),
             child: Row(
               children: <Widget>[
-                Text('Total price:'),
+                Text('Total price:', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                 bill(),
                 Spacer(),
                 FloatingActionButton.extended(
@@ -84,7 +85,7 @@ class _CartState extends State<Cart> {
         }
         m = t;
         t = 0;
-        return Text('$m');
+        return Text(' $m', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold));
       },
     );
   }

@@ -290,7 +290,7 @@ Widget _buildHeaderIcons(context) {
       children: <Widget>[
         GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '.');
+              Navigator.pushNamed(context, '/splash');
             },
             child: Icon(Icons.arrow_back_ios, color: Colors.white, size: 32.0)),
         new Expanded(
