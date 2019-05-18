@@ -22,9 +22,9 @@ class _HomeShopState extends State<HomeShop> {
       body: PageView(
         controller: _controller,
         children: _generatorWidget({
-          "fruits": Color(0xff159CFF),
-          "vegetables": Color(0xff8660FF),
-          "grocery": Color(0xff4A3FFF)
+          "fruits": Color(0xff9388FF),
+          "vegetables": Color(0xff6B77E0),
+          "grocery": Color(0xFF50CDFF)
         }),
       ),
     );
@@ -36,25 +36,36 @@ class _HomeShopState extends State<HomeShop> {
     super.dispose();
   }
 
-  _tabChange(int index, bool isChange) {
-    print("index:$index--isChange:$isChange");
-    if (isChange) {
-      _controller.jumpToPage(index);
-      _currentIndex = index;
-      print("_currentIndex:$_currentIndex");
-      setState(() {});
-    }
+  Widget itemCount(){
+    int c = 0;
+    return StreamBuilder(
+      stream: Firestore.instance.collection('user/phone/cart').snapshots(),
+      builder: (context, snapshot) {
+        for (int i = 1; i < snapshot.data.documents.length; i++) {
+          int b = snapshot.data.documents[i]['quantity'];
+          c = c+ b;
+        }
+        int m = c;
+        c = 0;
+        return Text('$m', style: TextStyle(color: Colors.white));
+      },
+    );
   }
+
+  // _tabChange(int index, bool isChange) {
+  //   print("index:$index--isChange:$isChange");
+  //   if (isChange) {
+  //     _controller.jumpToPage(index);
+  //     _currentIndex = index;
+  //     print("_currentIndex:$_currentIndex");
+  //     setState(() {});
+  //   }
+  // }
 
   List<Widget> _generatorWidget(Map<String, Color> map) {
     List<Widget> list = [];
     map.forEach((title, color) {
       list.add(Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, '/cart'),
-          backgroundColor: color,
-          child: Icon(Icons.add_shopping_cart),
-        ),
         body: ListView(children: <Widget>[
           Container(
             height: 160.0,
@@ -69,6 +80,34 @@ class _HomeShopState extends State<HomeShop> {
                       title,
                       style: TextStyle(color: Colors.white, fontSize: 25.0),
                     ),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: IconButton(
+                    iconSize: 35,
+                    icon: Icon(Icons.shopping_cart),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/cart');
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 13,
+                  right: 20,
+                  child: Container(
+                    height: 18,
+                    width: 18,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 0.5
+                        ),
+                        borderRadius: BorderRadius.circular(140),
+                        color: color),
+                    child: Center(child: itemCount()),
                   ),
                 ),
                 Positioned(

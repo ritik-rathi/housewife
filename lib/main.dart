@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       home: HomeShop(),
       // initialRoute: '.',
       routes: {
-        '.': (context) => SplashScreens(),
+        '/splash': (context) => SplashScreens(),
         '/todo':(context)=> TodoList(),
         '/homeshop':(context)=>HomeShop(),
         '/records':(context)=> Records(),
