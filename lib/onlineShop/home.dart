@@ -160,6 +160,10 @@ class _HomeShopState extends State<HomeShop> {
               itemBuilder: (context, index) {
                 if (!snapshot.hasData) return const CircularProgressIndicator();
                 return Dismissible(
+                  background: Container(
+                    color: Colors.green,
+                    child: Icon(Icons.add_shopping_cart  , color: Colors.white, size: 50.0,),
+                  ),
                   onDismissed: (direction) {
                     Firestore.instance
                         .collection('user/phone/cart')
