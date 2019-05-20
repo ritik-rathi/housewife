@@ -29,39 +29,36 @@ class _TodoListState extends State<TodoList> {
     var initSettingsIOS = new IOSInitializationSettings();
     var initSetting =
         new InitializationSettings(initSettingsAndroid, initSettingsIOS);
-    notificationsPlugin.initialize(initSetting , onSelectNotification: onSelectNotification);
+    notificationsPlugin.initialize(initSetting,
+        onSelectNotification: onSelectNotification);
 
-    Timer(Duration(seconds: 5) , () => showNotificationWithSound);
+    Timer(Duration(seconds: 5), () => showNotificationWithSound);
     super.initState();
   }
 
-  Future onSelectNotification(String payload) async{
+  Future onSelectNotification(String payload) async {
     showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text("Time to complete tasks"),
-        content: new Text('Your task $payload is not complete yet!')
-      )
-    );
-  }  
+        context: context,
+        builder: (_) => new AlertDialog(
+            title: new Text("Time to complete tasks"),
+            content: new Text('Your task $payload is not complete yet!')));
+  }
 
   Future showNotificationWithSound() async {
-  var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
-      importance: Importance.Max,
-      priority: Priority.High);
-  var iOSPlatformChannelSpecifics =
-      new IOSNotificationDetails();
-  var platformChannelSpecifics = new NotificationDetails(
-      androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-  await notificationsPlugin.show(
-    0,
-    'Complete Task',
-    'Time to terminate the tasks!',
-    platformChannelSpecifics,
-    payload: 'Task',
-  );
-}
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await notificationsPlugin.show(
+      0,
+      'Complete Task',
+      'Time to terminate the tasks!',
+      platformChannelSpecifics,
+      payload: 'Task',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,16 +68,20 @@ class _TodoListState extends State<TodoList> {
       body: Stack(
         // fit: StackFit.expand,
         children: <Widget>[
-          ClipPath(
+          Hero(
+            tag: 'Transition',
+            child: ClipPath(
               clipper: ImageClipper(),
               child: Image.asset(
-                'assets/images/todo.png',
-                fit: BoxFit.fill,
-                width: double.maxFinite,
-                height: _imageHeight,
-                colorBlendMode: BlendMode.srcOver,
-                color: new Color.fromARGB(120, 20, 10, 40),
-              )),
+                  'assets/images/todo.png',
+                  fit: BoxFit.fill,
+                  width: double.maxFinite,
+                  height: _imageHeight,
+                  colorBlendMode: BlendMode.srcOver,
+                  color: new Color.fromARGB(120, 20, 10, 40),
+                ),
+            ),
+          ),
           _buildHeaderIcons(context),
           _buildProfileRow(),
           _buildTimeLine(),

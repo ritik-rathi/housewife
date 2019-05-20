@@ -97,9 +97,12 @@ class _SplashScreensState extends State<SplashScreens> {
                             Navigator.pushNamed(
                                 context, pageList[index].screenPath);
                           },
-                          child: Image.asset(
-                            pageList[index].imgPath,
-                            fit: BoxFit.cover,
+                          child: Hero(
+                            tag: pageList[index].heroPath,
+                            child: Image.asset(
+                              pageList[index].imgPath,
+                              fit: BoxFit.cover,
+                            ),
                           )),
                       Stack(
                         children: <Widget>[

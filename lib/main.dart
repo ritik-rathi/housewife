@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: HomeShop(),
+      home: SplashScreens(),
       // initialRoute: '.',
       routes: {
         '/splash': (context) => SplashScreens(),
