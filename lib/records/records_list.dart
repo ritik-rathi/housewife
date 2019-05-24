@@ -127,47 +127,38 @@ class _RecordsState extends State<Records> {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration:
-                                        BoxDecoration(border: Border.all()),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          'Name: ',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Text(ds["name"]),
-                                        Text('Phone : ',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold)),
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Text(ds["phone"]),
-                                        Text('Role : ',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold)),
-                                        SizedBox(height: 5.0),
-                                        Text(ds["role"]),
-                                      ],
-                                    ),
-                                  ),
+                                      height: 200,
+                                      width: 200,
+                                      decoration:
+                                          BoxDecoration(border: Border.all()),
+                                      child: RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: 'Name : ',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  letterSpacing: 2.0,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold)),
+                                          TextSpan(
+                                              text: ds["name"],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 30.0,
+                                                  fontWeight: FontWeight.w700)),
+                                          TextSpan(
+                                              text: '\n\nPhone :',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold)),
+                                          TextSpan(
+                                              text: ds["phone"],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 30.0,
+                                                  fontWeight: FontWeight.w700))
+                                        ]),
+                                      )),
                                 ),
                               ),
                               Padding(
@@ -178,7 +169,7 @@ class _RecordsState extends State<Records> {
                                   width: 90.0,
                                   height: 90.0,
                                   decoration: BoxDecoration(
-                                    color: Colors.teal,
+                                      color: Colors.teal,
                                       shape: BoxShape.rectangle,
                                       border: Border.all()),
                                 ),
@@ -221,4 +212,3 @@ class ImageClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
-

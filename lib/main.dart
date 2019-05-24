@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fun_app/onlineShop/cart.dart';
+import 'package:fun_app/otp_test.dart';
 import 'package:fun_app/records/screens/budget.dart';
 import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'package:fun_app/todo_list/completed.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'HomeMaker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: SplashScreens(),
+      home: PhoneNumberAdd(),
       // initialRoute: '.',
       routes: {
         '/splash': (context) => SplashScreens(),
