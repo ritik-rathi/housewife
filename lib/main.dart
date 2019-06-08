@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fun_app/onlineShop/cart.dart';
+import 'package:fun_app/onlineShop/wallet.dart';
 import 'package:fun_app/records/screens/budget.dart';
 import 'package:fun_app/splash_screens/splash_screens.dart';
 import 'package:fun_app/todo_list/completed.dart';
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
         '/newTask':(context)=>NewTask(),
         '/completed':(context) => Completed(),
         '/addRecord': (context) => NewRecord(),
-        '/cart': (context) => Cart()
+        '/cart': (context) => Cart(),
+        '/wallet': (context) => Wallet()
       },
     );
   }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeShop extends StatefulWidget {
   @override
@@ -91,6 +92,18 @@ class _HomeShopState extends State<HomeShop> {
                     color: Colors.white,
                     onPressed: () {
                       Navigator.pushNamed(context, '/cart');
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: IconButton(
+                    iconSize: 25,
+                    icon: Icon(Icons.account_balance_wallet),
+                    color: Colors.white,
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/wallet');
                     },
                   ),
                 ),
@@ -243,10 +256,10 @@ class _HomeShopState extends State<HomeShop> {
           prefix0.Container(
             height: 150,
             padding: const EdgeInsets.only(top: 20),
-            child: Image.network(
-              document['image'],
+            child: CachedNetworkImage(
+              imageUrl: document['image'],
               fit: BoxFit.contain,
-            ),
+            )
           ),
           SizedBox(height: 35),
           Row(
