@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/appUtils.dart';
-import 'package:fun_app/splash_screens/page_indicator.dart';
-import 'package:fun_app/splash_screens/splash_screens.dart';
+import 'package:fun_app/screens/splash_screens/page_indicator.dart';
+import 'package:fun_app/screens/splash_screens/splash_screens.dart';
 
 class Tutorial extends StatefulWidget {
   @override

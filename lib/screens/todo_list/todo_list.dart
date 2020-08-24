@@ -1,15 +1,8 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fun_app/todo_list/fab.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:fun_app/todo_list/firebase_service.dart';
-
-int dateDay = new DateTime.now().day;
-int dateMonth = new DateTime.now().month;
-int dateYear = new DateTime.now().year;
+import 'package:fun_app/screens/todo_list/fab.dart';
 
 class TodoList extends StatefulWidget {
   @override
@@ -18,6 +11,9 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   double _imageHeight = 256.0;
+  int dateDay = new DateTime.now().day;
+  int dateMonth = new DateTime.now().month;
+  int dateYear = new DateTime.now().year;
 
   FlutterLocalNotificationsPlugin notificationsPlugin;
 
@@ -29,39 +25,55 @@ class _TodoListState extends State<TodoList> {
     var initSettingsIOS = new IOSInitializationSettings();
     var initSetting =
         new InitializationSettings(initSettingsAndroid, initSettingsIOS);
-    notificationsPlugin.initialize(initSetting , onSelectNotification: onSelectNotification);
+    notificationsPlugin.initialize(initSetting,
+        onSelectNotification: onSelectNotification);
 
-    Timer(Duration(seconds: 5) , () => showNotificationWithSound);
+    Timer(Duration(seconds: 5), () => showNotificationWithSound);
     super.initState();
   }
 
-  Future onSelectNotification(String payload) async{
-    showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text("Time to complete tasks"),
-        content: new Text('Your task $payload is not complete yet!')
-      )
+  Widget _buildListHeader() {
+    return Padding(
+      padding: EdgeInsets.only(left: 64.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Text(
+            'My Tasks',
+            style: new TextStyle(fontSize: 34.0),
+          ),
+          new Text(
+            '$dateDay / $dateMonth / $dateYear',
+            style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+          ),
+        ],
+      ),
     );
-  }  
+  }
+
+  Future onSelectNotification(String payload) async {
+    showDialog(
+        context: context,
+        builder: (_) => new AlertDialog(
+            title: new Text("Time to complete tasks"),
+            content: new Text('Your task $payload is not complete yet!')));
+  }
 
   Future showNotificationWithSound() async {
-  var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
-      importance: Importance.Max,
-      priority: Priority.High);
-  var iOSPlatformChannelSpecifics =
-      new IOSNotificationDetails();
-  var platformChannelSpecifics = new NotificationDetails(
-      androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-  await notificationsPlugin.show(
-    0,
-    'Complete Task',
-    'Time to terminate the tasks!',
-    platformChannelSpecifics,
-    payload: 'Task',
-  );
-}
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await notificationsPlugin.show(
+      0,
+      'Complete Task',
+      'Time to terminate the tasks!',
+      platformChannelSpecifics,
+      payload: 'Task',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +83,9 @@ class _TodoListState extends State<TodoList> {
       body: Stack(
         // fit: StackFit.expand,
         children: <Widget>[
-          ClipPath(
+          Hero(
+            tag: 'Transition',
+            child: ClipPath(
               clipper: ImageClipper(),
               child: Image.asset(
                 'assets/images/todo.png',
@@ -80,7 +94,9 @@ class _TodoListState extends State<TodoList> {
                 height: _imageHeight,
                 colorBlendMode: BlendMode.srcOver,
                 color: new Color.fromARGB(120, 20, 10, 40),
-              )),
+              ),
+            ),
+          ),
           _buildHeaderIcons(context),
           _buildProfileRow(),
           _buildTimeLine(),
@@ -247,25 +263,6 @@ Widget _buildProfileRow() {
               border: Border.all(width: 1.0, color: Colors.white),
               borderRadius: BorderRadius.circular(25.0)),
         )
-      ],
-    ),
-  );
-}
-
-Widget _buildListHeader() {
-  return Padding(
-    padding: EdgeInsets.only(left: 64.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        new Text(
-          'My Tasks',
-          style: new TextStyle(fontSize: 34.0),
-        ),
-        new Text(
-          '${dateDay} / ${dateMonth} / ${dateYear}', // ? enter the date from Firebase
-          style: new TextStyle(color: Colors.grey, fontSize: 12.0),
-        ),
       ],
     ),
   );

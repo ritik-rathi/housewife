@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/splash_screens/page_indicator.dart';
+import 'package:fun_app/screens/splash_screens/page_indicator.dart';
 import 'pageviewmodel.dart';
 import 'package:gradient_text/gradient_text.dart';
 
@@ -97,9 +97,12 @@ class _SplashScreensState extends State<SplashScreens> {
                             Navigator.pushNamed(
                                 context, pageList[index].screenPath);
                           },
-                          child: Image.asset(
-                            pageList[index].imgPath,
-                            fit: BoxFit.cover,
+                          child: Hero(
+                            tag: pageList[index].heroPath,
+                            child: Image.asset(
+                              pageList[index].imgPath,
+                              fit: BoxFit.cover,
+                            ),
                           )),
                       Stack(
                         children: <Widget>[

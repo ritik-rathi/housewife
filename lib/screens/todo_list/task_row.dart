@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/todo_list/tasks.dart';
+import 'package:fun_app/screens/todo_list/tasks.dart';
 
 class TaskRow extends StatefulWidget {
   final Tasks task;

@@ -1,50 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/onlineShop/cart.dart';
-import 'package:fun_app/onlineShop/wallet.dart';
-import 'package:fun_app/records/screens/budget.dart';
-import 'package:fun_app/splash_screens/splash_screens.dart';
-import 'package:fun_app/todo_list/completed.dart';
-import 'package:fun_app/todo_list/newtask.dart';
-import 'package:fun_app/todo_list/todo_list.dart';
-import 'package:fun_app/tutorial/tutorial.dart';
-import 'help_screens/fruits.dart';
-import 'login_new.dart';
-import 'onlineShop/home.dart';
-import 'records/records_list.dart';
-import 'records/screens/maid.dart';
-import 'records/screens/new_record.dart';
-
-Color color1 = Colors.blue[500];
-Color color2 = Colors.blue[700];
-Color color3 = Colors.blue[900];
+import 'package:fun_app/otp_test.dart';
+import 'package:fun_app/screens/help_screens/fruits.dart';
+import 'package:fun_app/screens/onlineShop/cart.dart';
+import 'package:fun_app/screens/onlineShop/home.dart';
+import 'package:fun_app/screens/records/records_list.dart';
+import 'package:fun_app/screens/records/screens/maid.dart';
+import 'package:fun_app/screens/records/screens/new_record.dart';
+import 'package:fun_app/screens/todo_list/completed.dart';
+import 'package:fun_app/screens/todo_list/newtask.dart';
+import 'package:fun_app/screens/todo_list/todo_list.dart';
+import 'package:fun_app/utils/utils.dart';
+import 'screens/splash_screens/splash_screens.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
-      title: 'HomeMaker',
+      title: 'Ghar',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: HomeShop(),
+      home: SplashScreens(),
       // initialRoute: '.',
       routes: {
         '/splash': (context) => SplashScreens(),
-        '/todo':(context)=> TodoList(),
-        '/homeshop':(context)=>HomeShop(),
-        '/records':(context)=> Records(),
+        '/todo': (context) => TodoList(),
+        '/homeshop': (context) => HomeShop(),
+        '/records': (context) => Records(),
         'home': (context) => FunApp(),
         'fruits': (context) => Fruits(),
         'fruitList': (context) => FruitList(),
         'onlineFruits': (context) => OnlineFruits(),
         'maid': (context) => Maid(),
-        '/newTask':(context)=>NewTask(),
-        '/completed':(context) => Completed(),
+        '/newTask': (context) => NewTask(),
+        '/completed': (context) => Completed(),
         '/addRecord': (context) => NewRecord(),
         '/cart': (context) => Cart(),
-        '/wallet': (context) => Wallet()
+        // '/wallet': (context) => Wallet()
       },
     );
   }
@@ -97,7 +90,7 @@ class _FunAppState extends State<FunApp> {
                           width: 30),
                       onPressed: () {},
                     ),
-                    Text('GROCERY', style: TextStyle(color: color1))
+                    Text('GROCERY', style: TextStyle(color: AppColors.blue500))
                   ],
                 ),
                 Column(
@@ -109,7 +102,7 @@ class _FunAppState extends State<FunApp> {
                           width: 30),
                       onPressed: () {},
                     ),
-                    Text('MAID', style: TextStyle(color: color1))
+                    Text('MAID', style: TextStyle(color: AppColors.blue700))
                   ],
                 ),
                 Column(
@@ -121,7 +114,7 @@ class _FunAppState extends State<FunApp> {
                           width: 30),
                       onPressed: () {},
                     ),
-                    Text('MILK', style: TextStyle(color: color1))
+                    Text('MILK', style: TextStyle(color: AppColors.blue500))
                   ],
                 ),
                 Column(
@@ -133,7 +126,7 @@ class _FunAppState extends State<FunApp> {
                           width: 30),
                       onPressed: () {},
                     ),
-                    Text('FRUITS', style: TextStyle(color: color1))
+                    Text('FRUITS', style: TextStyle(color: AppColors.blue500))
                   ],
                 )
               ],
@@ -169,7 +162,7 @@ class _FunAppState extends State<FunApp> {
                   background: Container(
                     color: Colors.red,
                     height: 50,
-                    width: 100,      
+                    width: 100,
                   ),
                   child: Container(
                     margin: EdgeInsets.all(5),
@@ -179,8 +172,7 @@ class _FunAppState extends State<FunApp> {
                       color: color[index],
                       elevation: 5,
                       shape: BeveledRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)
-                      ),
+                          borderRadius: BorderRadius.circular(5)),
                       child: Center(
                         child: Text('Task $index'),
                       ),

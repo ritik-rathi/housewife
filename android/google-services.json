@@ -42,6 +42,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58034130184:android:c9b1f1e467344fdc5070bd",
+        "android_client_info": {
+          "package_name": "com.pandev.ghar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58034130184-2gl0g52k9899n4g3qhdb6b8ibf9qd369.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pandev.ghar",
+            "certificate_hash": "68dc2003b966dc011735880dac86555feed78677"
+          }
+        },
+        {
+          "client_id": "58034130184-j7ar5u5ubpuk4a2k01nc54co710tv88r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCkJpV9cRxS5DHTK3jxlAbtg9-TXCRAvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58034130184-qbhsg13jshsa0donkuer5rmdvgnqace7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

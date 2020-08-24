@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fun_app/firebase_service.dart';
-import 'package:fun_app/todo_list/tasks.dart';
 
 int red = 230, green = 12, blue = 12;
 bool isRedSelected = false;

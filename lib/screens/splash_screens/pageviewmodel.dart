@@ -5,6 +5,7 @@ var pageList = [
       // number: 0,
       imgPath: 'assets/images/todo.png',
       title: 'TODO',
+      heroPath: 'Transition1',
       description: 'Manage your day the right way',
       gradients: gradients[0],
       screenPath: '/todo'),
@@ -12,11 +13,13 @@ var pageList = [
       title: 'Shopping',
       imgPath: 'assets/images/shopping.png',
       description: 'Shop your daily needs',
+      heroPath: 'Transition2',
       gradients: gradients[1],
       screenPath: '/homeshop'),
   PageViewModel(
       imgPath: 'assets/images/bck.jpg',
       title: 'Manage',
+      heroPath: 'Transition3',
       description: 'Keep track of everything',
       gradients: gradients[2],
       screenPath: '/records'),
@@ -34,12 +37,14 @@ class PageViewModel {
   String description;
   String imgPath;
   String screenPath;
+  String heroPath;
   List<Color> gradients = [];
 
   PageViewModel(
       {this.number,
       this.title,
       this.description,
+      this.heroPath,
       this.gradients,
       this.imgPath,
       this.screenPath});
