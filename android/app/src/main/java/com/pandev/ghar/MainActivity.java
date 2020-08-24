@@ -1,4 +1,4 @@
-package com.example.fun_app;
+package com.pandev.ghar;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

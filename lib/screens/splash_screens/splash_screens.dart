@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/splash_screens/page_indicator.dart';
+import 'package:fun_app/screens/splash_screens/page_indicator.dart';
 import 'pageviewmodel.dart';
 import 'package:gradient_text/gradient_text.dart';
 

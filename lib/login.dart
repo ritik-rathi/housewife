@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'package:fun_app/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 String _name, _email, _phone, _password, _smsCode, _verificationId, _message;
@@ -23,7 +23,11 @@ class _LoginState extends State<Login> {
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [color1, color2, color3])),
+                  colors: [
+                AppColors.blue500,
+                AppColors.blue700,
+                AppColors.blue900
+              ])),
           child: Container(
             margin: EdgeInsets.all(16),
             child: Form(
@@ -164,12 +168,12 @@ class _LoginState extends State<Login> {
 //       _verificationId = verId;
 //     };
 
-    // final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
-    //   _verificationId = verId;
-    //   smsCodeDialog(context).then((value) {
-    //     print('Signed In');
-    //   });
-    // };
+// final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+//   _verificationId = verId;
+//   smsCodeDialog(context).then((value) {
+//     print('Signed In');
+//   });
+// };
 
 //     final PhoneVerificationCompleted verifiedSucc = (FirebaseUser user) {
 //       print('Verified');
@@ -188,36 +192,36 @@ class _LoginState extends State<Login> {
 //         verificationFailed: verifiedFail);
 //   }
 
-  // Future<bool> smsCodeDialog(BuildContext context) {
-  //   return showDialog(
-  //       context: context,
-  //       barrierDismissible: false,
-  //       builder: (BuildContext context) {
-  //         return new AlertDialog(
-  //           title: Text('enter SMS code'),
-  //           content: TextField(
-  //             onChanged: (value) => _smsCode = value,
-  //           ),
-  //           contentPadding: EdgeInsets.all(10),
-  //           actions: <Widget>[
-  //             FlatButton(
-  //               child: Text('Done'),
-  //               onPressed: () {
-  //                 FirebaseAuth.instance.currentUser().then((user) {
-  //                   if (user != null) {
-  //                     Navigator.of(context).pop();
-  //                     Navigator.pushReplacementNamed(context, 'home');
-  //                   } else {
-  //                     Navigator.of(context).pop();
-  //                     _signInWithPhoneNumber();
-  //                   }
-  //                 });
-  //               },
-  //             )
-  //           ],
-  //         );
-  //       });
-  // }
+// Future<bool> smsCodeDialog(BuildContext context) {
+//   return showDialog(
+//       context: context,
+//       barrierDismissible: false,
+//       builder: (BuildContext context) {
+//         return new AlertDialog(
+//           title: Text('enter SMS code'),
+//           content: TextField(
+//             onChanged: (value) => _smsCode = value,
+//           ),
+//           contentPadding: EdgeInsets.all(10),
+//           actions: <Widget>[
+//             FlatButton(
+//               child: Text('Done'),
+//               onPressed: () {
+//                 FirebaseAuth.instance.currentUser().then((user) {
+//                   if (user != null) {
+//                     Navigator.of(context).pop();
+//                     Navigator.pushReplacementNamed(context, 'home');
+//                   } else {
+//                     Navigator.of(context).pop();
+//                     _signInWithPhoneNumber();
+//                   }
+//                 });
+//               },
+//             )
+//           ],
+//         );
+//       });
+// }
 
 //   void _signInWithPhoneNumber() async {
 //     final AuthCredential credential = PhoneAuthProvider.getCredential(

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/todo_list/fab.dart';
-import 'package:fun_app/todo_list/todo_list.dart';
-// import 'record_card.dart';
-import 'screens/new_record.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fun_app/screens/todo_list/fab.dart';
 
 class Records extends StatefulWidget {
   @override

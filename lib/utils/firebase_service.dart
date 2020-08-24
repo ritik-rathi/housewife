@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:fun_app/todo_list/tasks.dart';
+import 'package:fun_app/screens/todo_list/tasks.dart';
 
 class FirebaseService {
   CollectionReference cRef = Firestore.instance.collection("todo");

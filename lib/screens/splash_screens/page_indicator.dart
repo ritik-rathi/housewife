@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fun_app/splash_screens/pageviewmodel.dart';
 
 class PageIndicator extends StatelessWidget {
-  int currentIndex;
-  int pageCount;
+  final int currentIndex;
+  final int pageCount;
 
   PageIndicator({this.currentIndex, this.pageCount});
 
